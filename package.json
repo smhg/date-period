@@ -4,7 +4,7 @@
   "description": "Date period iterator",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,11 @@
   "homepage": "https://github.com/smhg/period",
   "dependencies": {
     "moment": "2.4.*"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "grunt-contrib-jshint": "~0.7.2"
   }
 }
