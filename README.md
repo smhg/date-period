@@ -3,7 +3,7 @@ period
 
 JavaScript date period iterator.
 
-Mimics PHP's excelent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
+Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
 Note: usable in browser, including IE8 with [es5-shim](https://github.com/kriskowal/es5-shim).
 
