@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/smhg/period/issues"
   },
-  "homepage": "https://github.com/smhg/period"
+  "homepage": "https://github.com/smhg/period",
+  "dependencies": {
+    "moment": "2.4.*"
+  }
 }
