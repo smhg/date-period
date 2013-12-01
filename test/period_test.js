@@ -19,6 +19,12 @@ module.exports = {
 
     test.deepEqual(period[period.length - 1], end, 'last item should match end');
 
+    period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').subtract(12, 'hours'));
+    test.equal(period.length, 7, 'shortened end should affect length');
+
+    period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').add(12, 'hours'));
+    test.equal(period.length, 8, 'stretched end should not affect length');
+
     test.done();
   },
   'toString': function toString (test) {

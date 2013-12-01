@@ -26,4 +26,3 @@ The `period` variable can, for instance, be used with [underscore](underscorejs.
 ### TODO
 * Allow construction based on ISO string
 * Remove [moment](http://momentjs.com/) dependency
-* Test less standard period setups
