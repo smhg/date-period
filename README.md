@@ -17,9 +17,9 @@ var period = new Period(start, moment.duration(1, 'day'), end);
 console.log(period);
 /**
  * {
- *   '0': day1,
- *   '1': day2,
- *   '2': day3,
+ *   0: day1,
+ *   1: day2,
+ *   2: day3,
  *   length: 3
  * }
  */
@@ -27,5 +27,5 @@ console.log(period);
 The `period` variable can, for instance, be used with [underscore](underscorejs.org)'s `_.each`.
 
 ### TODO
-* Allow construction based on ISO string
+* Allow construction based on [ISO string](http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals)
 * Remove [moment](http://momentjs.com/) dependency
