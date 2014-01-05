@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/smhg/period",
   "peerDependencies": {
-    "moment": "2.4.*"
+    "moment": "2.*"
   },
   "devDependencies": {
-    "moment": "2.4.*",
-    "grunt": "~0.4.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-nodeunit": "~0.2.2",
-    "grunt-contrib-jshint": "~0.7.2"
+    "moment": "2.*",
+    "grunt": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-nodeunit": "*",
+    "grunt-contrib-jshint": "*"
   }
 }
