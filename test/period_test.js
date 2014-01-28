@@ -1,39 +1,52 @@
-var Period = require('../lib/period'),
+var assert = require('assert'),
+  Period = require('../lib/period'),
   moment = require('moment');
 
-module.exports = {
-  'constructor': function constructor (test) {
-    var start = moment(),
-      end = start.clone().add(7, 'days'),
-      period;
+describe('Period', function () {
+  describe('#()', function () {
+    var start, end;
 
-    test.throws(function () { new Period(); }, 'constructor should expect parameters');
-    test.throws(function () { new Period('2013-12-01'); }, 'constructor should not allow invalid parameters');
+    beforeEach(function () {
+      start = moment();
+      end = start.clone().add(7, 'days');
+    });
 
-    period = new Period(start, moment.duration(1, 'day'), 7);
+    it('should require parameters', function () {
+      assert.throws(function () { new Period(); }, 'constructor should expect parameters');
+    });
 
-    test.deepEqual(period[0], start, 'first item should match start');
-    test.equal(period.length, 8, 'length property should match number of occurences (recurrences + 1!)');
+    it('should validate parameters', function () {
+      assert.throws(function () { new Period('2013-12-01'); }, 'constructor should not allow invalid parameters');
+    });
 
-    period = new Period(start, moment.duration(1, 'day'), end);
+    it('should be iterable', function () {
+      var period = new Period(start, moment.duration(1, 'day'), 7);
 
-    test.deepEqual(period[period.length - 1], end, 'last item should match end');
+      assert.deepEqual(period[0], start);
+      assert.equal(period.length, 8);
+    });
 
-    period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').subtract(12, 'hours'));
-    test.equal(period.length, 7, 'shortened end should affect length');
+    it('should include end date as last item', function () {
+      var period = new Period(start, moment.duration(1, 'day'), end);
+      assert.deepEqual(period[period.length - 1], end);
+    });
 
-    period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').add(12, 'hours'));
-    test.equal(period.length, 8, 'stretched end should not affect length');
+    it('should handle not-matching start and end dates', function () {
+      var period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').subtract(12, 'hours'));
+      assert.equal(period.length, 7, 'shortened end should affect length');
 
-    test.done();
-  },
-  'toString': function toString (test) {
-    var start = moment(),
-      end = start.clone().add(7, 'days'),
-      period = new Period(start, moment.duration(1, 'day'), end);
+      period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').add(12, 'hours'));
+      assert.equal(period.length, 8, 'stretched end should not affect length');
+    });
+  });
 
-    test.ok(period.toString().length > 3, 'conversion to string should work');
+  describe('#toString()', function () {
+    it('should return a string', function () {
+      var start = moment(),
+        end = start.clone().add(7, 'days'),
+        period = new Period(start, moment.duration(1, 'day'), end);
 
-    test.done();
-  }
-};
+      assert.equal(typeof period.toString(), 'string');
+    });
+  });
+});
