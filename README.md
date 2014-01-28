@@ -1,3 +1,5 @@
+[![browser support](https://ci.testling.com/smhg/date-period.png)](http://ci.testling.com/smhg/date-period) [![Build status](https://api.travis-ci.org/smhg/date-period.png)] (https://travis-ci.org/smhg/date-period)
+
 period
 ======
 
