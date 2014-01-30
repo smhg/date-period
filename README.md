@@ -2,35 +2,42 @@
 
 period
 ======
-
-JavaScript date period iterator.
+JavaScript date period "iterator".
 
 Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
-Note: usable in browser, including IE8 with [es5-shim](https://github.com/kriskowal/es5-shim).
-
 ## Usage
+### new Period(start, interval, end|recurrences)
 ```javascript
-var start = moment(),
-    end = start.clone().add(3, 'days');
+var start = moment('2014-01-01 00:00:00'),
+	period = new Period(start, moment.duration(1, 'day'), start.clone().add(3, 'days'));
 
-var period = new Period(start, moment.duration(1, 'day'), end);
+// or, with the number of recurrences instead of an end date:
+// period = new Period(start, moment.duration(1, 'day'), 3);
 
-console.log(period);
 /**
+ * period is now an array-like object:
  * {
- *   0: day1,
- *   1: day2,
- *   2: day3,
- *   length: 3
+ *   0: moment('2014-01-01 00:00:00'),
+ *   1: moment('2014-01-02 00:00:00'),
+ *   2: moment('2014-01-03 00:00:00'),
+ *   3: moment('2014-01-04 00:00:00'),
+ *   length: 4
  * }
  */
 ```
-The `period` variable can, for instance, be used with [underscore](underscorejs.org)'s `_.each`.
+The `period` variable in the example can, for instance, be iterated like:
+```javascript
+Array.prototype.forEach.call(period, function (date) {
+	//...
+});
+```
+or with [underscore](underscorejs.org)'s or [lodash](lodash.com)'s `_.each`.
 
 ### TODO
 * Allow construction based on [ISO string](http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals)
 * Remove [moment](http://momentjs.com/) dependency
+* Use a generator when possible
 
 ## License
 The MIT License (MIT)
