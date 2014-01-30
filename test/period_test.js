@@ -22,13 +22,13 @@ describe('Period', function () {
     it('should be iterable', function () {
       var period = new Period(start, moment.duration(1, 'day'), 7);
 
-      assert.deepEqual(period[0], start);
+      assert.deepEqual(period[0].toDate(), start.toDate());
       assert.equal(period.length, 8);
     });
 
     it('should include end date as last item', function () {
       var period = new Period(start, moment.duration(1, 'day'), end);
-      assert.deepEqual(period[period.length - 1], end);
+      assert.deepEqual(period[period.length - 1].toDate(), end.toDate());
     });
 
     it('should handle not-matching start and end dates', function () {
