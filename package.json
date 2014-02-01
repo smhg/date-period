@@ -32,7 +32,7 @@
     "harness" : "mocha",
     "files": "test/*.js",
     "browsers": [
-      "iexplore/6.0..latest",
+      "iexplore/8.0..latest",
       "firefox/latest",
       "chrome/latest",
       "safari/latest"
