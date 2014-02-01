@@ -34,8 +34,7 @@
     "browsers": [
       "iexplore/8.0..latest",
       "firefox/latest",
-      "chrome/latest",
-      "safari/latest"
+      "chrome/latest"
     ]
   }
 }
