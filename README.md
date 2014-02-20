@@ -1,6 +1,6 @@
-[![browser support](https://ci.testling.com/smhg/date-period.png)](https://ci.testling.com/smhg/date-period) [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period)
+[![browser support](https://ci.testling.com/smhg/date-period.png)](https://ci.testling.com/smhg/date-period)
 
-period
+period [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period)
 ======
 JavaScript date period "iterator".
 
