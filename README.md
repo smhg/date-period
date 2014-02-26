@@ -34,11 +34,6 @@ Array.prototype.forEach.call(period, function (date) {
 ```
 or with [underscore](underscorejs.org)'s or [lodash](lodash.com)'s `_.each`.
 
-### TODO
-* Allow construction based on [ISO string](http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals)
-* Remove [moment](http://momentjs.com/) dependency
-* Use a generator when possible
-
 ## License
 The MIT License (MIT)
 
