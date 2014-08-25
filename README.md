@@ -10,7 +10,8 @@ Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperio
 ### new Period(start, interval, end|recurrences)
 ```javascript
 var start = moment('2014-01-01 00:00:00'),
-	period = new Period(start, moment.duration(1, 'day'), start.clone().add(3, 'days'));
+	end = start.clone().add(3, 'days'),
+	period = new Period(start, moment.duration(1, 'day'), end);
 
 // or, with the number of recurrences instead of an end date:
 // period = new Period(start, moment.duration(1, 'day'), 3);
@@ -32,15 +33,4 @@ Array.prototype.forEach.call(period, function (date) {
 	//...
 });
 ```
-or with [underscore](underscorejs.org)'s or [lodash](lodash.com)'s `_.each`.
-
-## License
-The MIT License (MIT)
-
-Copyright (c) [Sam Hauglustaine](https://github.com/smhg)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+or with [underscore](http://underscorejs.org)'s or [lodash](http://lodash.com)'s `_.each`.
