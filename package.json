@@ -4,7 +4,7 @@
   "description": "Date period iterator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jshint index.js test && mocha"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,12 @@
     "moment": "2.*"
   },
   "devDependencies": {
-    "moment": "2.*",
-    "mocha": "*"
+    "jshint": "~2.5.5",
+    "mocha": "~1.21.4",
+    "moment": "~2.8.2"
   },
   "testling": {
-    "harness" : "mocha",
+    "harness": "mocha",
     "files": "test/*.js",
     "browsers": [
       "iexplore/8.0..latest",
