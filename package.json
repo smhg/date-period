@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/smhg/date-period",
   "peerDependencies": {
-    "moment": "2.*"
+    "moment": "~2.8.2"
   },
   "devDependencies": {
     "jshint": "~2.5.5",

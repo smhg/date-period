@@ -38,15 +38,25 @@ describe('Period', function () {
             period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').add(12, 'hours'));
             assert.equal(period.length, 8, 'stretched end should not affect length');
           });
+
+        it('should parse a string in ISO format', function () {
+            var period = new Period('R4/2012-07-01T00:00:00Z/P7D');
+
+            assert.equal(5, period.length);
+            assert(moment('2012-07-01T00:00:00Z').isSame(period[0]));
+            assert(moment('2012-07-29T00:00:00Z').isSame(period[4]));
+          });
       });
 
     describe('#toString()', function () {
         it('should return a string', function () {
-            var start = moment(),
+            var start = moment.utc('2013-06-30T12:30:00Z'),
               end = start.clone().add(7, 'days'),
-              period = new Period(start, moment.duration(1, 'day'), end);
+              period = new Period(start, moment.duration(1, 'day'), end),
+              str = period.toString();
 
-            assert.equal(typeof period.toString(), 'string');
+            assert.equal(typeof str, 'string');
+            assert.equal(str, 'R7/2013-06-30T12:30:00+00:00/P1D');
           });
       });
   });
