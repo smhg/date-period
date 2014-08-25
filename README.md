@@ -7,28 +7,30 @@ JavaScript date period "iterator".
 Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
 ## Usage
-### new Period(start, interval, end|recurrences)
+#### new Period(start, interval, end)
+#### new Period(start, interval, recurrences)
+#### new Period(isoString)
 ```javascript
-var start = moment('2014-01-01 00:00:00'),
+var start = moment.utc('2014-01-01T00:00:00Z'),
 	end = start.clone().add(3, 'days'),
 	period = new Period(start, moment.duration(1, 'day'), end);
 
 // or, with the number of recurrences instead of an end date:
-// period = new Period(start, moment.duration(1, 'day'), 3);
+period = new Period(start, moment.duration(1, 'day'), 3);
+
+// or, with a string in ISO 8601 repeating interval format:
+period = new Period('R3/2014-01-01T00:00:00Z/P1D');
 
 /**
- * period is now an array-like object:
+ * in any case, period is an array-like object:
  * {
- *   0: moment('2014-01-01 00:00:00'),
- *   1: moment('2014-01-02 00:00:00'),
- *   2: moment('2014-01-03 00:00:00'),
- *   3: moment('2014-01-04 00:00:00'),
+ *   0: moment.utc('2014-01-01T00:00:00Z'),
+ *   1: moment.utc('2014-01-02T00:00:00Z'),
+ *   2: moment.utc('2014-01-03T00:00:00Z'),
+ *   3: moment.utc('2014-01-04T00:00:00Z'),
  *   length: 4
  * }
  */
-
-// or, with a string in ISO 8601 repeating interval format:
-// period = new Period('R4/2012-07-01T00:00:00Z/P7D');
 ```
 The `period` variable in the example can, for instance, be iterated like:
 ```javascript
