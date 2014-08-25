@@ -26,6 +26,9 @@ var start = moment('2014-01-01 00:00:00'),
  *   length: 4
  * }
  */
+
+// or, with a string in ISO 8601 repeating interval format:
+// period = new Period('R4/2012-07-01T00:00:00Z/P7D');
 ```
 The `period` variable in the example can, for instance, be iterated like:
 ```javascript
