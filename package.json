@@ -27,14 +27,5 @@
   "devDependencies": {
     "jshint": "2.7.0",
     "mocha": "2.2.4"
-  },
-  "testling": {
-    "harness": "mocha",
-    "files": "test/*.js",
-    "browsers": [
-      "iexplore/8.0..latest",
-      "firefox/latest",
-      "chrome/latest"
-    ]
   }
 }
