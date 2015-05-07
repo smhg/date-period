@@ -48,6 +48,8 @@ var Period = module.exports = function Period(start, interval, end) {
     for (var i = 0;i < rec;i++) {
       end.add(this.interval);
     }
+
+    end.add(this.interval); // includes end in results
   } else {
     end = validators.end(end);
 
@@ -58,7 +60,7 @@ var Period = module.exports = function Period(start, interval, end) {
 
   this.length = 0;
 
-  while (!start.isAfter(end)) {
+  while (end.isAfter(start)) {
     this[this.length++] = start.clone();
     start.add(this.interval);
   }

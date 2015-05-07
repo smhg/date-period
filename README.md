@@ -10,7 +10,7 @@ Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperio
 #### new Period(isoString)
 ```javascript
 var start = moment.utc('2014-01-01T00:00:00Z'),
-	end = start.clone().add(3, 'days'),
+	end = start.clone().add(4, 'days'), // end date itself won't be included
 	period = new Period(start, moment.duration(1, 'day'), end);
 
 // or, with the number of recurrences instead of an end date:

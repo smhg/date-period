@@ -28,7 +28,7 @@ describe('Period', function () {
 
     it('should not include end date as last item', function () {
       var period = new Period(start, moment.duration(1, 'day'), end);
-      assert.deepEqual(period[period.length - 1].toDate(), end.toDate());
+      assert.deepEqual(period[period.length - 1].toDate(), end.clone().subtract(1, 'day').toDate());
     });
 
     it('should handle not-matching start and end dates', function () {
@@ -51,8 +51,7 @@ describe('Period', function () {
   describe('#toString()', function () {
     it('should return a string', function () {
       var start = moment.utc('2013-06-30T12:30:00Z'),
-        end = start.clone().add(7, 'days'),
-        period = new Period(start, moment.duration(1, 'day'), end),
+        period = new Period(start, moment.duration(1, 'day'), 7),
         str = period.toString();
 
       assert.equal(typeof str, 'string');
