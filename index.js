@@ -1,26 +1,26 @@
 var validateMoment = function (date) {
-    if (!date) {
-      throw new Error('Invalid date');
-    }
+  if (!date) {
+    throw new Error('Invalid date');
+  }
 
-    if (!date.isValid || !date.isValid()) {
-      throw new Error('Invalid date');
-    }
+  if (!date.isValid || !date.isValid()) {
+    throw new Error('Invalid date');
+  }
 
-    return date;
-  };
+  return date;
+};
 
 var validators = {
-    start: validateMoment,
-    interval: function validateInterval(value) {
-      if (typeof value !== 'object') {
-        throw new Error('Invalid interval');
-      }
+  start: validateMoment,
+  interval: function validateInterval(value) {
+    if (typeof value !== 'object') {
+      throw new Error('Invalid interval');
+    }
 
-      return value;
-    },
-    end: validateMoment
-  };
+    return value;
+  },
+  end: validateMoment
+};
 
 /**
  * Period
@@ -30,40 +30,40 @@ var validators = {
  * @return {Period}
  */
 var Period = module.exports = function Period(start, interval, end) {
-    if (typeof start === 'string' && start[0] === 'R') {
-      var moment = require('moment'),
-        iso = start.split(/\//);
+  if (typeof start === 'string' && start[0] === 'R') {
+    var moment = require('moment'),
+      iso = start.split(/\//);
 
-      start = moment(iso[1]);
-      interval = moment.duration(iso[2]);
-      end = parseInt(iso[0].substr(1), 10);
+    start = moment(iso[1]);
+    interval = moment.duration(iso[2]);
+    end = parseInt(iso[0].substr(1), 10);
+  }
+
+  start = validators.start(start).clone();
+  this.interval = validators.interval(interval);
+
+  if (typeof end === 'number') {
+    var rec = end;
+    end = start.clone();
+    for (var i = 0;i < rec;i++) {
+      end.add(this.interval);
     }
+  } else {
+    end = validators.end(end);
 
-    start = validators.start(start).clone();
-    this.interval = validators.interval(interval);
-
-    if (typeof end === 'number') {
-      var rec = end;
-      end = start.clone();
-      for (var i = 0;i < rec;i++) {
-        end.add(this.interval);
-      }
-    } else {
-      end = validators.end(end);
-
-      if (start.isAfter(end)) {
-        throw new Error('Invalid period');
-      }
+    if (start.isAfter(end)) {
+      throw new Error('Invalid period');
     }
+  }
 
-    this.length = 0;
+  this.length = 0;
 
-    while (!start.isAfter(end)) {
-      this[this.length++] = start.clone();
-      start.add(this.interval);
-    }
-  };
+  while (!start.isAfter(end)) {
+    this[this.length++] = start.clone();
+    start.add(this.interval);
+  }
+};
 
 Period.prototype.toString = function toString() {
-    return 'R' + (this.length - 1) + '/'  + this[0].format() + '/' + this.interval.toISOString();
-  };
+  return 'R' + (this.length - 1) + '/'  + this[0].format() + '/' + this.interval.toISOString();
+};
