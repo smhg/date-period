@@ -4,7 +4,9 @@
   "description": "Date period iterator",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js test && mocha"
+    "test": "eslint index.js test && mocha",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
