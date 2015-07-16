@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert'),
   Period = require('..'),
   moment = require('moment');

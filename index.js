@@ -1,3 +1,5 @@
+'use strict';
+
 var validateMoment = function (date) {
   if (!date) {
     throw new Error('Invalid date');
@@ -31,8 +33,9 @@ var validators = {
  */
 var Period = module.exports = function Period(start, interval, end) {
   if (typeof start === 'string' && start[0] === 'R') {
-    var moment = require('moment'),
-      iso = start.split(/\//);
+    var moment = require('moment');
+
+    var iso = start.split(/\//);
 
     start = moment(iso[1]);
     interval = moment.duration(iso[2]);
@@ -45,7 +48,7 @@ var Period = module.exports = function Period(start, interval, end) {
   if (typeof end === 'number') {
     var rec = end;
     end = start.clone();
-    for (var i = 0;i < rec;i++) {
+    for (var i = 0; i < rec; i++) {
       end.add(this.interval);
     }
 
@@ -67,5 +70,5 @@ var Period = module.exports = function Period(start, interval, end) {
 };
 
 Period.prototype.toString = function toString() {
-  return 'R' + (this.length - 1) + '/'  + this[0].format() + '/' + this.interval.toISOString();
+  return 'R' + (this.length - 1) + '/' + this[0].format() + '/' + this.interval.toISOString();
 };
