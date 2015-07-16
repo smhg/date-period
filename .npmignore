@@ -1,6 +1,2 @@
-/node_modules
-/test
-/.travis.yml
-/.gitignore
-/.jshintrc
-/npm-debug.log
+test
+.travis.yml
