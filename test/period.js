@@ -2,15 +2,15 @@
 
 import assert from 'assert';
 import Period from '../src/period';
-import moment from 'moment';
 
 describe('Period', () => {
   describe('#()', () => {
     let start, end;
 
     beforeEach(() => {
-      start = moment();
-      end = start.clone().add(7, 'days');
+      start = new Date();
+      end = new Date(+start);
+      end.setDate(end.getDate() + 7);
     });
 
     it('should require parameters', () => {
@@ -22,22 +22,35 @@ describe('Period', () => {
     });
 
     it('should be iterable', () => {
-      let period = new Period(start, moment.duration(1, 'day'), 7);
+      let period = new Period(start, 'P1D', 7);
 
-      assert.deepEqual(period[0].toDate(), start.toDate());
+      assert.deepEqual(period[0], start);
       assert.equal(period.length, 8);
     });
 
     it('should not include end date as last item', () => {
-      let period = new Period(start, moment.duration(1, 'day'), end);
-      assert.deepEqual(period[period.length - 1].toDate(), end.clone().subtract(1, 'day').toDate());
+      let period = new Period(start, 'P1D', end),
+        testEnd = new Date(+start);
+
+      testEnd.setDate(testEnd.getDate() + 6);
+
+      assert.deepEqual(period[period.length - 1], testEnd);
     });
 
     it('should handle not-matching start and end dates', () => {
-      let period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').subtract(12, 'hours'));
+      let thisEnd = new Date(+start);
+      thisEnd.setDate(thisEnd.getDate() + 7);
+      thisEnd.setHours(thisEnd.getHours() - 12);
+
+      let period = new Period(start, 'P1D', thisEnd);
+
       assert.equal(period.length, 7, 'shortened end should affect length');
 
-      period = new Period(start, moment.duration(1, 'day'), start.clone().add(7, 'days').add(12, 'hours'));
+      thisEnd = new Date(+start);
+      thisEnd.setDate(thisEnd.getDate() + 7);
+      thisEnd.setHours(thisEnd.getHours() + 12);
+
+      period = new Period(start, 'P1D', thisEnd);
       assert.equal(period.length, 8, 'stretched end should not affect length');
     });
 
@@ -45,19 +58,19 @@ describe('Period', () => {
       let period = new Period('R4/2012-07-01T00:00:00Z/P7D');
 
       assert.equal(5, period.length);
-      assert(moment('2012-07-01T00:00:00Z').isSame(period[0]));
-      assert(moment('2012-07-29T00:00:00Z').isSame(period[4]));
+      assert.deepEqual(new Date('2012-07-01T00:00:00Z'), period[0]);
+      assert.deepEqual(new Date('2012-07-29T00:00:00Z'), period[4]);
     });
   });
 
   describe('#toString()', () => {
     it('should return a string', () => {
-      let start = moment.utc('2013-06-30T12:30:00Z'),
-        period = new Period(start, moment.duration(1, 'day'), 7),
+      let start = new Date('2013-06-30T12:30:00Z'),
+        period = new Period(start, 'P1D', 7),
         str = period.toString();
 
       assert.equal(typeof str, 'string');
-      assert.equal(str, 'R7/2013-06-30T12:30:00+00:00/P1D');
+      assert.equal(str, 'R7/2013-06-30T12:30:00Z/P1D');
     });
   });
 });

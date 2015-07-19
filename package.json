@@ -26,9 +26,6 @@
     "url": "https://github.com/smhg/date-period/issues"
   },
   "homepage": "https://github.com/smhg/date-period",
-  "dependencies": {
-    "moment": "^2.10.3"
-  },
   "devDependencies": {
     "babel": "^5.6.23",
     "babel-eslint": "^3.1.23",
