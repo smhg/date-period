@@ -8,8 +8,8 @@
     "test": "babel-node -r node_modules/.bin/_mocha test",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
-    "build": "babel src --source-maps-inline -d dist",
-    "prepublish": "npm run lint && npm test && npm run build"
+    "build": "npm run lint && npm test && babel src --source-maps-inline -d dist",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
