@@ -33,14 +33,16 @@ var validators = {
 };
 
 /**
- * Period
- * @param {moment} start Start date
- * @param {moment.duration} interval Interval representing the duration of an iteration
- * @param {number|moment} end Either the number of recurrences or the end date
- * @return {Period}
+ * Period class.
  */
 
 var Period = (function () {
+  /**
+   * @param {date|string} start - Start date or ISO 8601 repeating interval.
+   * @param {string} duration - ISO 8601 duration.
+   * @param {date|number} end - End date or number of recurrences.
+   */
+
   function Period(start, interval, end) {
     _classCallCheck(this, Period);
 
@@ -83,6 +85,10 @@ var Period = (function () {
 
   _createClass(Period, [{
     key: 'toString',
+
+    /**
+     * @return {string}
+     */
     value: function toString() {
       return 'R' + (this.length - 1) + '/' + this[0].format() + '/' + this.interval.toISOString();
     }
