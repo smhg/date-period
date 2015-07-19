@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert'),
-  Period = require('..'),
+  Period = require('../src/period'),
   moment = require('moment');
 
 describe('Period', function () {

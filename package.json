@@ -2,11 +2,14 @@
   "name": "date-period",
   "version": "0.3.1",
   "description": "Date period iterator",
-  "main": "index.js",
+  "main": "dist/period.js",
   "scripts": {
-    "test": "eslint index.js test && mocha",
-    "preversion": "npm test",
-    "postversion": "git push && git push --tags"
+    "lint": "eslint src test",
+    "test": "babel-node -r node_modules/.bin/_mocha test",
+    "preversion": "npm run lint && npm test",
+    "postversion": "git push && git push --tags",
+    "build": "babel src --source-maps-inline -d dist",
+    "prepublish": "npm run lint && npm test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -27,7 +30,9 @@
     "moment": "2.10.3"
   },
   "devDependencies": {
-    "eslint": "0.24.1",
-    "mocha": "2.2.5"
+    "babel": "^5.6.23",
+    "babel-eslint": "^3.1.23",
+    "eslint": "^0.24.1",
+    "mocha": "^2.2.5"
   }
 }
