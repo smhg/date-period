@@ -41,31 +41,23 @@ let filters = {
   }
 };
 
-let add = (date, duration) => {
-  if (duration.year) {
-    date.setFullYear(date.getFullYear() + duration.year);
-  }
-
-  if (duration.month) {
-    date.setMonth(date.getMonth() + duration.month);
-  }
-
-  if (duration.day) {
-    date.setDate(date.getDate() + duration.day);
-  }
-
-  if (duration.hour) {
-    date.setHours(date.getHours() + duration.hour);
-  }
-
-  if (duration.minute) {
-    date.setMinutes(date.getMinutes() + duration.minute);
-  }
-
-  if (duration.second) {
-    date.setSeconds(date.getSeconds() + duration.second);
-  }
-};
+let addMap = {
+    year: 'FullYear',
+    month: 'Month',
+    day: 'Date',
+    hour: 'Hours',
+    minute: 'Minutes',
+    second: 'Seconds'
+  },
+  add = (date, duration) => {
+    for (let key in addMap) {
+      if (addMap.hasOwnProperty(key)) {
+        if (duration[key]) {
+          date['set' + addMap[key]](date['get' + addMap[key]]() + duration[key]);
+        }
+      }
+    }
+  };
 
 /**
  * Period class.
