@@ -1,6 +1,6 @@
 'use strict';
 
-import parseISODuration from './parse-iso-duration';
+import Duration from './duration';
 
 let filters = {
   date: (date) => {
@@ -41,7 +41,7 @@ let filters = {
   }
 };
 
-let dateAddDuration = (date, duration) => {
+let add = (date, duration) => {
   if (duration.year) {
     date.setFullYear(date.getFullYear() + duration.year);
   }
@@ -65,8 +65,6 @@ let dateAddDuration = (date, duration) => {
   if (duration.second) {
     date.setSeconds(date.getSeconds() + duration.second);
   }
-
-  return date;
 };
 
 /**
@@ -101,7 +99,7 @@ class Period {
       throw new Error(`${duration} is not a valid duration`);
     }
 
-    this.duration = duration = parseISODuration(duration);
+    this.duration = duration = new Duration(duration);
 
     try {
       end = filters.date(end);
@@ -112,10 +110,10 @@ class Period {
         let rec = end;
         end = new Date(+start);
         for (let i = 0; i < rec; i++) {
-          end = dateAddDuration(end, duration);
+          add(end, duration);
         }
 
-        end = dateAddDuration(end, duration); // includes end in results
+        add(end, duration); // includes end in results
       } catch (recurrenceException) {
         throw new Error('Third argument should either be a number or date');
       }
@@ -128,8 +126,8 @@ class Period {
     let date = new Date(+start);
 
     while (date < end) {
-       this[this.length++] = new Date(+date);
-      date = dateAddDuration(date, duration);
+      this[this.length++] = new Date(+date);
+      add(date, duration);
     }
   }
 

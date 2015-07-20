@@ -10,9 +10,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _parseIsoDuration = require('./parse-iso-duration');
+var _duration2 = require('./duration');
 
-var _parseIsoDuration2 = _interopRequireDefault(_parseIsoDuration);
+var _duration3 = _interopRequireDefault(_duration2);
 
 var filters = {
   date: function date(_date) {
@@ -53,7 +53,7 @@ var filters = {
   }
 };
 
-var dateAddDuration = function dateAddDuration(date, duration) {
+var add = function add(date, duration) {
   if (duration.year) {
     date.setFullYear(date.getFullYear() + duration.year);
   }
@@ -77,8 +77,6 @@ var dateAddDuration = function dateAddDuration(date, duration) {
   if (duration.second) {
     date.setSeconds(date.getSeconds() + duration.second);
   }
-
-  return date;
 };
 
 /**
@@ -117,7 +115,7 @@ var Period = (function () {
       throw new Error(duration + ' is not a valid duration');
     }
 
-    this.duration = duration = (0, _parseIsoDuration2['default'])(duration);
+    this.duration = duration = new _duration3['default'](duration);
 
     try {
       end = filters.date(end);
@@ -128,10 +126,10 @@ var Period = (function () {
         var rec = end;
         end = new Date(+start);
         for (var i = 0; i < rec; i++) {
-          end = dateAddDuration(end, duration);
+          add(end, duration);
         }
 
-        end = dateAddDuration(end, duration); // includes end in results
+        add(end, duration); // includes end in results
       } catch (recurrenceException) {
         throw new Error('Third argument should either be a number or date');
       }
@@ -145,7 +143,7 @@ var Period = (function () {
 
     while (date < end) {
       this[this.length++] = new Date(+date);
-      date = dateAddDuration(date, duration);
+      add(date, duration);
     }
   }
 

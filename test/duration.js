@@ -1,11 +1,11 @@
 'use strict';
 
-import parseIsoDuration from '../src/parse-iso-duration';
+import Duration from '../src/duration';
 import assert from 'assert';
 
-describe('parseIsoDuration', () => {
+describe('Duration', () => {
   it('should parse date part', () => {
-    let duration = parseIsoDuration('P1Y2M3D');
+    let duration = new Duration('P1Y2M3D');
 
     assert.equal(duration.year, 1);
     assert.equal(duration.month, 2);
@@ -13,7 +13,7 @@ describe('parseIsoDuration', () => {
   });
 
   it('should parse time part', () => {
-    let duration = parseIsoDuration('PT1H2M3S');
+    let duration = new Duration('PT1H2M3S');
 
     assert.equal(duration.hour, 1);
     assert.equal(duration.minute, 2);
@@ -21,7 +21,7 @@ describe('parseIsoDuration', () => {
   });
 
   it('should parse date and time part', () => {
-    let duration = parseIsoDuration('P1Y2M3DT4H5M6S');
+    let duration = new Duration('P1Y2M3DT4H5M6S');
 
     assert.equal(duration.year, 1);
     assert.equal(duration.month, 2);
@@ -32,7 +32,7 @@ describe('parseIsoDuration', () => {
   });
 
   it('should skip missing parts', () => {
-    let duration = parseIsoDuration('P1MT2S');
+    let duration = new Duration('P1MT2S');
 
     assert.equal(duration.month, 1);
     assert.equal(duration.second, 2);
