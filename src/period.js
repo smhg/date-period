@@ -41,20 +41,18 @@ let filters = {
   }
 };
 
-let addMap = {
-    year: 'FullYear',
-    month: 'Month',
-    day: 'Date',
-    hour: 'Hours',
-    minute: 'Minutes',
-    second: 'Seconds'
-  },
+let dateMethods = new Map([
+    ['year', 'FullYear'],
+    ['month', 'Month'],
+    ['day', 'Date'],
+    ['hour', 'Hours'],
+    ['minute', 'Minutes'],
+    ['second', 'Seconds']
+  ]),
   add = (date, duration) => {
-    for (let key in addMap) {
-      if (addMap.hasOwnProperty(key)) {
-        if (duration[key]) {
-          date['set' + addMap[key]](date['get' + addMap[key]]() + duration[key]);
-        }
+    for (let [key, methodName] of dateMethods) {
+      if (duration[key]) {
+        date['set' + methodName](date['get' + methodName]() + duration[key]);
       }
     }
   };
@@ -62,7 +60,7 @@ let addMap = {
 /**
  * Period class.
  */
-class Period {
+export default class Period {
   /**
    * @param {date|string} start - Start date or ISO 8601 repeating interval.
    * @param {string} duration - ISO 8601 duration.
@@ -149,5 +147,3 @@ class Period {
     return `R${recurrence}/${start}/${duration}`;
   }
 }
-
-export default Period;
