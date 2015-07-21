@@ -36,7 +36,9 @@ period = new Period('R3/2014-01-01T00:00:00Z/P1D');
  * }
  */
 ```
-The `period` variable in the example can be iterated over using `forEach`.
+> **Note:** the date and duration parameters can be objects which have, respectively, a `toDate` and `toString` method. This way [moment](http://momentjs.com) objects are supported.
+
+The `period` variable in the example above can be iterated over using `forEach`.
 Since it is an object and not an array, forEach can only be used when setting the period as `thisArg` with `call`:
 ```javascript
 Array.prototype.forEach.call(period, function (date) {
