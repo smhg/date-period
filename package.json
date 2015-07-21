@@ -1,7 +1,7 @@
 {
   "name": "date-period",
   "version": "0.4.0",
-  "description": "Date period iterator",
+  "description": "Time period iterator",
   "main": "dist/period.js",
   "scripts": {
     "lint": "eslint src test",
