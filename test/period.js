@@ -61,6 +61,32 @@ describe('Period', () => {
       assert.deepEqual(new Date('2012-07-01T00:00:00Z'), period[0]);
       assert.deepEqual(new Date('2012-07-29T00:00:00Z'), period[4]);
     });
+
+    it('should handle date-like objects with a toDate method', () => {
+      class CustomDate { // something like moment
+        constructor(date) { this.date = date; }
+        toDate() { return this.date; }
+      }
+
+      let dummy = new CustomDate(start),
+        period = new Period(dummy, 'PT1H30M', 3);
+
+      assert(period.length === 4);
+      assert.deepEqual(period[0], start);
+    });
+
+    it('should handle duration objects with a toString method', () => {
+      class CustomDuration { // something like moment.duration
+        constructor(isoString) { this.isoString = isoString; }
+        toString() { return this.isoString; }
+      }
+
+      let dummy = new CustomDuration('P1D'),
+        period = new Period(start, dummy, 3);
+
+      assert(period.length === 4);
+      assert.deepEqual(period[0], start);
+    });
   });
 
   describe('#toString()', () => {
