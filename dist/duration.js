@@ -61,3 +61,4 @@ var _default = (function () {
 
 exports['default'] = _default;
 module.exports = exports['default'];
+//# sourceMappingURL=duration.js.map

@@ -185,3 +185,4 @@ var Period = (function () {
 
 exports['default'] = Period;
 module.exports = exports['default'];
+//# sourceMappingURL=period.js.map
