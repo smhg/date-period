@@ -8,17 +8,16 @@ export default class {
   constructor(isoString) {
     let sequence = /P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?/;
 
-    let [, ...parts] = isoString.match(sequence),
-      [year, month, day, hour, minute, second] = parts.map(toInt);
+    let [, ...parts] = isoString.match(sequence);
 
-    Object.assign(this, {
-      year,
-      month,
-      day,
-      hour,
-      minute,
-      second
-    });
+    parts = parts.map(toInt);
+
+    this.year = parts[0];
+    this.month = parts[1];
+    this.day = parts[2];
+    this.hour = parts[3];
+    this.minute = parts[4];
+    this.second = parts[5];
   }
 
   toString() {
