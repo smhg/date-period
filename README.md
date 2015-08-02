@@ -15,7 +15,7 @@ let start = new Date('2014-01-01T00:00:00Z'),
 	end = new Date(+start),
 	period;
 
-end.setDate(end.getDate() + 4); // end date itself won't be included 
+end.setUTCDate(end.getUTCDate() + 4); // end date itself won't be included 
 
 period = new Period(start, 'P1D', end);
 
