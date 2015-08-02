@@ -26,6 +26,10 @@ describe('Period', () => {
 
       assert.deepEqual(period[0], start);
       assert.equal(period.length, 8);
+
+      assert.doesNotThrow(function () {
+        Array.prototype.forEach.call(period, () => {});
+      });
     });
 
     it('should not include end date as last item', () => {
@@ -55,11 +59,15 @@ describe('Period', () => {
     });
 
     it('should parse a string in ISO format', () => {
-      let period = new Period('R4/2012-07-01T00:00:00Z/P7D');
+      let period = new Period('R4/2015-10-25T00:00:00Z/PT1H');
 
       assert.equal(5, period.length);
-      assert.deepEqual(new Date('2012-07-01T00:00:00Z'), period[0]);
-      assert.deepEqual(new Date('2012-07-29T00:00:00Z'), period[4]);
+      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), period[0]);
+      assert.deepEqual(new Date('2015-10-25T04:00:00Z'), period[4]);
+
+      period = new Period('R4/2015-10-25T00:00:00Z/P1M');
+      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), period[0]);
+      assert.deepEqual(new Date('2015-11-25T00:00:00Z'), period[1]);
     });
 
     it('should handle date-like objects with a toDate method', () => {

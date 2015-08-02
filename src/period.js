@@ -42,12 +42,12 @@ let filters = {
 };
 
 let dateMethods = new Map([
-    ['year', 'FullYear'],
-    ['month', 'Month'],
-    ['day', 'Date'],
-    ['hour', 'Hours'],
-    ['minute', 'Minutes'],
-    ['second', 'Seconds']
+    ['year', 'UTCFullYear'],
+    ['month', 'UTCMonth'],
+    ['day', 'UTCDate'],
+    ['hour', 'UTCHours'],
+    ['minute', 'UTCMinutes'],
+    ['second', 'UTCSeconds']
   ]),
   add = (date, duration) => {
     for (let [key, methodName] of dateMethods) {
