@@ -1,6 +1,6 @@
 {
   "name": "date-period",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Time period iterator",
   "main": "dist/period.js",
   "scripts": {
