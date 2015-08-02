@@ -1,7 +1,7 @@
 'use strict';
 
 import assert from 'assert';
-import Period from '../src/period';
+import createPeriod from '../src/period';
 
 describe('Period', () => {
   describe('#()', () => {
@@ -14,15 +14,15 @@ describe('Period', () => {
     });
 
     it('should require parameters', () => {
-      assert.throws(() => { new Period(); }, 'constructor should expect parameters');
+      assert.throws(() => { createPeriod(); }, 'constructor should expect parameters');
     });
 
     it('should validate parameters', () => {
-      assert.throws(() => { new Period('2013-12-01'); }, 'constructor should not allow invalid parameters');
+      assert.throws(() => { createPeriod('2013-12-01'); }, 'constructor should not allow invalid parameters');
     });
 
     it('should be iterable', () => {
-      let period = new Period(start, 'P1D', 7);
+      let period = createPeriod(start, 'P1D', 7);
 
       assert.deepEqual(period[0], start);
       assert.equal(period.length, 8);
@@ -33,7 +33,7 @@ describe('Period', () => {
     });
 
     it('should not include end date as last item', () => {
-      let period = new Period(start, 'P1D', end),
+      let period = createPeriod(start, 'P1D', end),
         testEnd = new Date(+start);
 
       testEnd.setDate(testEnd.getDate() + 6);
@@ -46,7 +46,7 @@ describe('Period', () => {
       thisEnd.setDate(thisEnd.getDate() + 7);
       thisEnd.setHours(thisEnd.getHours() - 12);
 
-      let period = new Period(start, 'P1D', thisEnd);
+      let period = createPeriod(start, 'P1D', thisEnd);
 
       assert.equal(period.length, 7, 'shortened end should affect length');
 
@@ -54,18 +54,18 @@ describe('Period', () => {
       thisEnd.setDate(thisEnd.getDate() + 7);
       thisEnd.setHours(thisEnd.getHours() + 12);
 
-      period = new Period(start, 'P1D', thisEnd);
+      period = createPeriod(start, 'P1D', thisEnd);
       assert.equal(period.length, 8, 'stretched end should not affect length');
     });
 
     it('should parse a string in ISO format', () => {
-      let period = new Period('R4/2015-10-25T00:00:00Z/PT1H');
+      let period = createPeriod('R4/2015-10-25T00:00:00Z/PT1H');
 
       assert.equal(5, period.length);
       assert.deepEqual(new Date('2015-10-25T00:00:00Z'), period[0]);
       assert.deepEqual(new Date('2015-10-25T04:00:00Z'), period[4]);
 
-      period = new Period('R4/2015-10-25T00:00:00Z/P1M');
+      period = createPeriod('R4/2015-10-25T00:00:00Z/P1M');
       assert.deepEqual(new Date('2015-10-25T00:00:00Z'), period[0]);
       assert.deepEqual(new Date('2015-11-25T00:00:00Z'), period[1]);
     });
@@ -77,7 +77,7 @@ describe('Period', () => {
       }
 
       let dummy = new CustomDate(start),
-        period = new Period(dummy, 'PT1H30M', 3);
+        period = createPeriod(dummy, 'PT1H30M', 3);
 
       assert(period.length === 4);
       assert.deepEqual(period[0], start);
@@ -90,7 +90,7 @@ describe('Period', () => {
       }
 
       let dummy = new CustomDuration('P1D'),
-        period = new Period(start, dummy, 3);
+        period = createPeriod(start, dummy, 3);
 
       assert(period.length === 4);
       assert.deepEqual(period[0], start);
@@ -100,7 +100,7 @@ describe('Period', () => {
   describe('#toString()', () => {
     it('should return a string', () => {
       let start = new Date('2013-06-30T12:30:00Z'),
-        period = new Period(start, 'P1D', 7),
+        period = createPeriod(start, 'P1D', 7),
         str = period.toString();
 
       assert.equal(typeof str, 'string');

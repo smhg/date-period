@@ -42,92 +42,90 @@ let filters = {
 };
 
 /**
- * Period class.
+ * @param {date|string} start - Start date or ISO 8601 repeating interval.
+ * @param {string} duration - ISO 8601 duration.
+ * @param {date|number} end - End date or number of recurrences.
  */
-export default class Period {
-  /**
-   * @param {date|string} start - Start date or ISO 8601 repeating interval.
-   * @param {string} duration - ISO 8601 duration.
-   * @param {date|number} end - End date or number of recurrences.
-   */
-  constructor(start, duration, end) {
-    this.length = 0;
+export default function createPeriod (start, duration, end) {
+  let length = 0;
 
+  try {
+    start = filters.date(start);
+  } catch (startException) {
     try {
-      start = filters.date(start);
-    } catch (startException) {
-      try {
-        let interval = filters.interval(start).split(/\//);
+      let interval = filters.interval(start).split(/\//);
 
-        start = new Date(interval[1]);
-        duration = interval[2];
-        end = parseInt(interval[0].substr(1), 10);
-      } catch (intervalException) {
-        throw new Error('First argument should either be a date or interval');
+      start = new Date(interval[1]);
+      duration = interval[2];
+      end = parseInt(interval[0].substr(1), 10);
+    } catch (intervalException) {
+      throw new Error('First argument should either be a date or interval');
+    }
+  }
+
+  try {
+    duration = filters.duration(duration);
+  } catch (durationException) {
+    throw new Error(`${duration} is not a valid duration`);
+  }
+
+  duration = createDuration(duration);
+
+  try {
+    end = filters.date(end);
+  } catch (endException) {
+    try {
+      end = filters.number(end);
+
+      let rec = end;
+      end = new Date(+start);
+      for (let i = 0; i < rec; i++) {
+        end = duration.addTo(end);
       }
+
+      end = duration.addTo(end); // includes end in results
+    } catch (recurrenceException) {
+      throw new Error('Third argument should either be a number or date');
     }
+  }
 
-    try {
-      duration = filters.duration(duration);
-    } catch (durationException) {
-      throw new Error(`${duration} is not a valid duration`);
-    }
+  if (start >= end) {
+    throw new Error('Invalid parameters, start needs to be before end');
+  }
 
-    this.duration = duration = createDuration(duration);
+  let date = new Date(+start);
 
-    try {
-      end = filters.date(end);
-    } catch (endException) {
-      try {
-        end = filters.number(end);
+  let period = {
+    duration,
+    toString: () => {
+      let recurrence = length - 1;
 
-        let rec = end;
-        end = new Date(+start);
-        for (let i = 0; i < rec; i++) {
-          end = duration.addTo(end);
+      let pad = (number) => {
+        if (number < 10) {
+          return '0' + number;
         }
 
-        end = duration.addTo(end); // includes end in results
-      } catch (recurrenceException) {
-        throw new Error('Third argument should either be a number or date');
-      }
-    }
+        return number;
+      };
 
-    if (start >= end) {
-      throw new Error('Invalid parameters, start needs to be before end');
-    }
+      let start = period[0].getUTCFullYear() +
+          '-' + pad(period[0].getUTCMonth() + 1) +
+          '-' + pad(period[0].getUTCDate()) +
+          'T' + pad(period[0].getUTCHours()) +
+          ':' + pad(period[0].getUTCMinutes()) +
+          ':' + pad(period[0].getUTCSeconds()) +
+          'Z';
 
-    let date = new Date(+start);
-
-    while (date < end) {
-      this[this.length++] = new Date(+date);
-      date = duration.addTo(date);
+      return `R${recurrence}/${start}/${duration}`;
     }
+  };
+
+  while (date < end) {
+    period[length++] = new Date(+date);
+    date = duration.addTo(date);
   }
 
-  /**
-   * @return {string}
-   */
-  toString() {
-    let recurrence = this.length - 1,
-      duration = this.duration;
+  period.length = length;
 
-    let pad = (number) => {
-      if (number < 10) {
-        return '0' + number;
-      }
-
-      return number;
-    };
-
-    let start = this[0].getUTCFullYear() +
-        '-' + pad(this[0].getUTCMonth() + 1) +
-        '-' + pad(this[0].getUTCDate()) +
-        'T' + pad(this[0].getUTCHours()) +
-        ':' + pad(this[0].getUTCMinutes()) +
-        ':' + pad(this[0].getUTCSeconds()) +
-        'Z';
-
-    return `R${recurrence}/${start}/${duration}`;
-  }
+  return Object.freeze(period);
 }
