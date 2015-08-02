@@ -20,7 +20,11 @@
     "time",
     "period",
     "iterator",
+    "generator",
+    "iso",
+    "8601"
     "iso8601",
+    "iso 8601",
     "date"
   ],
   "author": "Sam Hauglustaine",
