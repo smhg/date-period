@@ -1,6 +1,6 @@
 'use strict';
 
-import Duration from './duration';
+import createDuration from 'date-duration';
 
 let filters = {
   date: (date) => {
@@ -41,22 +41,6 @@ let filters = {
   }
 };
 
-let dateMethods = new Map([
-    ['year', 'UTCFullYear'],
-    ['month', 'UTCMonth'],
-    ['day', 'UTCDate'],
-    ['hour', 'UTCHours'],
-    ['minute', 'UTCMinutes'],
-    ['second', 'UTCSeconds']
-  ]),
-  add = (date, duration) => {
-    for (let [key, methodName] of dateMethods) {
-      if (duration[key]) {
-        date['set' + methodName](date['get' + methodName]() + duration[key]);
-      }
-    }
-  };
-
 /**
  * Period class.
  */
@@ -89,7 +73,7 @@ export default class Period {
       throw new Error(`${duration} is not a valid duration`);
     }
 
-    this.duration = duration = new Duration(duration);
+    this.duration = duration = createDuration(duration);
 
     try {
       end = filters.date(end);
@@ -100,10 +84,10 @@ export default class Period {
         let rec = end;
         end = new Date(+start);
         for (let i = 0; i < rec; i++) {
-          add(end, duration);
+          end = duration.addTo(end);
         }
 
-        add(end, duration); // includes end in results
+        end = duration.addTo(end); // includes end in results
       } catch (recurrenceException) {
         throw new Error('Third argument should either be a number or date');
       }
@@ -117,7 +101,7 @@ export default class Period {
 
     while (date < end) {
       this[this.length++] = new Date(+date);
-      add(date, duration);
+      date = duration.addTo(date);
     }
   }
 

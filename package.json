@@ -22,7 +22,7 @@
     "iterator",
     "generator",
     "iso",
-    "8601"
+    "8601",
     "iso8601",
     "iso 8601",
     "date"
@@ -38,5 +38,8 @@
     "babel-eslint": "^4.0.5",
     "eslint": "^1.0.0",
     "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "date-duration": "^0.1.0"
   }
 }
