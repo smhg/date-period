@@ -91,25 +91,21 @@ export default function createPeriod (start, duration, end) {
     throw new Error('Invalid parameters, start needs to be before end');
   }
 
-  let toArray = () => {
-    let result = {},
-      length = 0,
-      date = new Date(+start);
-
-    while (date < end) {
-      result[length++] = new Date(+date);
-      date = duration.addTo(date);
-    }
-
-    result.length = length;
-
-    return result;
-  }
-
-  return Object.freeze({
+  let period = Object.freeze({
     duration,
+    [Symbol.iterator]: function* () {
+      let date = new Date(+start);
+
+      while (date < end) {
+        yield new Date(+date);
+        date = duration.addTo(date);
+      }
+    },
+    toArray: () => {
+      return Array.from(period);
+    },
     toString: () => {
-      let result = toArray();
+      let result = period.toArray();
 
       let pad = (number) => {
         if (number < 10) {
@@ -128,7 +124,8 @@ export default function createPeriod (start, duration, end) {
           'Z';
 
       return `R${result.length - 1}/${isoStart}/${duration}`;
-    },
-    toArray
+    }
   });
+
+  return period;
 }
