@@ -9,8 +9,9 @@
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
     "build": "npm run lint && npm test && babel src --source-maps -d dist",
+    "clean": "rm -rf dist",
     "prepublish": "npm run build",
-    "postpublish": "rm -rf dist"
+    "postpublish": "npm run clean"
   },
   "repository": {
     "type": "git",
