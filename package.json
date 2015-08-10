@@ -8,7 +8,7 @@
     "test": "babel-node -r node_modules/.bin/_mocha test",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
-    "build": "npm run lint && npm test && babel src --source-maps -d dist",
+    "build": "npm run lint && npm test && babel src --optional runtime --source-maps -d dist",
     "clean": "rm -rf dist",
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
@@ -41,6 +41,7 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.20",
     "date-duration": "^0.1.0"
   }
 }
