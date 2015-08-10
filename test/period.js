@@ -103,7 +103,7 @@ describe('Period', () => {
         str = createPeriod(start, 'P1D', 7).toString();
 
       assert.equal(typeof str, 'string');
-      assert.equal(str, 'R7/2013-06-30T12:30:00Z/P1D');
+      assert.equal(str, 'R7/2013-06-30T12:30:00.000Z/P1D');
     });
   });
 });

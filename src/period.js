@@ -107,23 +107,7 @@ export default function createPeriod (start, duration, end) {
     toString: () => {
       let result = period.toArray();
 
-      let pad = (number) => {
-        if (number < 10) {
-          return '0' + number;
-        }
-
-        return number;
-      };
-
-      let isoStart = start.getUTCFullYear() +
-          '-' + pad(start.getUTCMonth() + 1) +
-          '-' + pad(start.getUTCDate()) +
-          'T' + pad(start.getUTCHours()) +
-          ':' + pad(start.getUTCMinutes()) +
-          ':' + pad(start.getUTCSeconds()) +
-          'Z';
-
-      return `R${result.length - 1}/${isoStart}/${duration}`;
+      return `R${result.length - 1}/${start.toISOString()}/${duration}`;
     }
   });
 
