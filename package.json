@@ -34,9 +34,9 @@
   },
   "homepage": "https://github.com/smhg/date-period#readme",
   "devDependencies": {
-    "babel": "^5.8.20",
+    "babel": "^5.8.21",
     "babel-eslint": "^4.0.5",
-    "eslint": "^1.0.0",
+    "eslint": "^1.1.0",
     "mocha": "^2.2.5"
   },
   "dependencies": {
