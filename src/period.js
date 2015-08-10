@@ -93,7 +93,7 @@ export default function createPeriod (start, duration, end) {
 
   let period = Object.freeze({
     duration,
-    [Symbol.iterator]: function* () {
+    *[Symbol.iterator]() {
       let date = new Date(+start);
 
       while (date < end) {
