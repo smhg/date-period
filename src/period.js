@@ -47,8 +47,6 @@ let filters = {
  * @param {date|number} end - End date or number of recurrences.
  */
 export default function createPeriod (start, duration, end) {
-  let length = 0;
-
   try {
     start = filters.date(start);
   } catch (startException) {
@@ -93,12 +91,25 @@ export default function createPeriod (start, duration, end) {
     throw new Error('Invalid parameters, start needs to be before end');
   }
 
-  let date = new Date(+start);
+  let toArray = () => {
+    let result = {},
+      length = 0,
+      date = new Date(+start);
 
-  let period = {
+    while (date < end) {
+      result[length++] = new Date(+date);
+      date = duration.addTo(date);
+    }
+
+    result.length = length;
+
+    return result;
+  }
+
+  return Object.freeze({
     duration,
     toString: () => {
-      let recurrence = length - 1;
+      let result = toArray();
 
       let pad = (number) => {
         if (number < 10) {
@@ -108,24 +119,16 @@ export default function createPeriod (start, duration, end) {
         return number;
       };
 
-      let start = period[0].getUTCFullYear() +
-          '-' + pad(period[0].getUTCMonth() + 1) +
-          '-' + pad(period[0].getUTCDate()) +
-          'T' + pad(period[0].getUTCHours()) +
-          ':' + pad(period[0].getUTCMinutes()) +
-          ':' + pad(period[0].getUTCSeconds()) +
+      let isoStart = start.getUTCFullYear() +
+          '-' + pad(start.getUTCMonth() + 1) +
+          '-' + pad(start.getUTCDate()) +
+          'T' + pad(start.getUTCHours()) +
+          ':' + pad(start.getUTCMinutes()) +
+          ':' + pad(start.getUTCSeconds()) +
           'Z';
 
-      return `R${recurrence}/${start}/${duration}`;
-    }
-  };
-
-  while (date < end) {
-    period[length++] = new Date(+date);
-    date = duration.addTo(date);
-  }
-
-  period.length = length;
-
-  return Object.freeze(period);
+      return `R${result.length - 1}/${isoStart}/${duration}`;
+    },
+    toArray
+  });
 }
