@@ -2,103 +2,73 @@
 
 import createDuration from 'date-duration';
 
-let filters = {
-  date: (date) => {
-    if (typeof date.toDate === 'function') {
-      date = date.toDate();
-    }
-
-    if (Object.prototype.toString.call(date) !== '[object Date]') {
-      throw new Error('Invalid date');
-    }
-
-    return new Date(+date);
-  },
-  duration: (duration) => {
-    if (typeof duration === 'object' && typeof duration.toString === 'function') {
-      duration = duration.toString();
-    }
-
-    if (typeof duration !== 'string' || duration[0] !== 'P') {
-      throw new Error('Invalid duration');
-    }
-
-    return duration;
-  },
-  interval: (interval) => {
-    if (typeof interval !== 'string' || interval[0] !== 'R') {
-      throw new Error('Invalid interval');
-    }
-
-    return interval;
-  },
-  number: (number) => {
-    if (typeof number !== 'number') {
-      throw new Error('Invalid number');
-    }
-
-    return number;
+let filterDate = (date) => {
+  if (typeof date.toDate === 'function') {
+    date = date.toDate();
   }
+
+  if (Object.prototype.toString.call(date) !== '[object Date]') {
+    throw new Error('Invalid date');
+  }
+
+  return new Date(+date);
 };
 
-/**
- * @param {date|string} start - Start date or ISO 8601 repeating interval.
- * @param {string} duration - ISO 8601 duration.
- * @param {date|number} end - End date or number of recurrences.
- */
-export default function createPeriod (start, duration, end) {
-  try {
-    start = filters.date(start);
-  } catch (startException) {
-    try {
-      let interval = filters.interval(start).split(/\//);
+export default function createPeriod (spec) {
+  let {start, duration, end, recurrence} = spec;
 
-      start = new Date(interval[1]);
-      duration = interval[2];
-      end = parseInt(interval[0].substr(1), 10);
-    } catch (intervalException) {
-      throw new Error('First argument should either be a date or interval');
+  if (spec.iso) {
+    if (typeof spec.iso !== 'string' || spec.iso[0] !== 'R') {
+      throw new Error('Invalid ISO interval');
     }
+
+    let iso = spec.iso.split(/\//);
+
+    start = new Date(iso[1]);
+    duration = iso[2];
+    recurrence = parseInt(iso[0].substr(1), 10);
   }
 
-  try {
-    duration = filters.duration(duration);
-  } catch (durationException) {
-    throw new Error(`${duration} is not a valid duration`);
+  start = filterDate(start);
+
+  if (typeof duration === 'object' && typeof duration.toString === 'function') {
+    duration = duration.toString();
+  }
+
+  if (typeof duration !== 'string' || duration[0] !== 'P') {
+    throw new Error('Invalid duration');
   }
 
   duration = createDuration(duration);
 
-  try {
-    end = filters.date(end);
-  } catch (endException) {
-    try {
-      end = filters.number(end);
-
-      let rec = end;
-      end = new Date(+start);
-      for (let i = 0; i < rec; i++) {
-        end = duration.addTo(end);
-      }
-
-      end = duration.addTo(end); // includes end in results
-    } catch (recurrenceException) {
-      throw new Error('Third argument should either be a number or date');
+  if (end) {
+    end = filterDate(end);
+  } else if (recurrence) {
+    if (typeof recurrence !== 'number') {
+      throw new Error('Invalid number of recurrences');
     }
+  } else {
+    throw new Error('Invalid parameters, missing end or number of recurrences');
   }
 
-  if (start >= end) {
-    throw new Error('Invalid parameters, start needs to be before end');
+  if (end && start >= end) {
+    throw new Error('Invalid parameters, end needs to be after start');
   }
 
-  let period = Object.freeze({
-    duration,
-    *[Symbol.iterator]() {
+  let period = {
+    *[Symbol.iterator] () {
       let date = new Date(+start);
 
-      while (date < end) {
-        yield new Date(+date);
-        date = duration.addTo(date);
+      if (end) {
+        while (date < end) {
+          yield new Date(+date);
+          date = duration.addTo(date);
+        }
+      } else {
+        for (let i = 0; i <= recurrence; i++) {
+          yield new Date(+date);
+          date = duration.addTo(date);
+        }
       }
     },
     toArray: () => {
@@ -109,7 +79,7 @@ export default function createPeriod (start, duration, end) {
 
       return `R${result.length - 1}/${start.toISOString()}/${duration}`;
     }
-  });
+  };
 
-  return period;
+  return Object.freeze(period);
 }

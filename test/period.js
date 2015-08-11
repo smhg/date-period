@@ -4,39 +4,85 @@ import assert from 'assert';
 import createPeriod from '../src/period';
 
 describe('Period', () => {
+  let start, end, duration;
+
+  beforeEach(() => {
+    start = new Date();
+    duration = 'P1D';
+    end = new Date(+start);
+    end.setDate(end.getDate() + 7);
+  });
+
   describe('#()', () => {
-    let start, end;
-
-    beforeEach(() => {
-      start = new Date();
-      end = new Date(+start);
-      end.setDate(end.getDate() + 7);
-    });
-
     it('should require parameters', () => {
-      assert.throws(() => { createPeriod(); });
+      assert.throws(() => {
+        createPeriod();
+      });
     });
 
     it('should validate parameters', () => {
-      assert.throws(() => { createPeriod('2013-12-01'); });
-      assert.throws(() => { createPeriod(new Date('2013-12-01T00:00:00Z'), 1); });
-      assert.throws(() => { createPeriod(new Date('2013-12-01T00:00:00Z'), 'P1D', 'abc'); });
-      assert.throws(() => { createPeriod(new Date('2013-12-01T00:00:00Z'), 'P1D', new Date('2013-11-01T00:00:00Z')); });
+      assert.throws(() => {
+        createPeriod({start: '2013-12-01'});
+      });
+
+      assert.throws(() => {
+        createPeriod({start});
+      });
+
+      assert.throws(() => {
+        createPeriod({start, duration: 'abc'});
+      });
+
+      assert.throws(() => {
+        createPeriod({start, duration});
+      });
+
+      assert.throws(() => {
+        createPeriod({start, duration, recurrence: 'abc'});
+      });
+
+      assert.throws(() => {
+        createPeriod({
+          start: new Date('2013-12-01T00:00:00Z'),
+          duration,
+          end: new Date('2013-11-01T00:00:00Z')
+        });
+      });
     });
 
     it('should be iterable', () => {
-      let period = createPeriod(start, 'P1D', 7).toArray();
+      let period = createPeriod({start, duration, end}),
+        last;
 
-      assert.deepEqual(period[0], start);
-      assert.equal(period.length, 8);
+      assert.deepEqual(period[Symbol.iterator]().next().value, start);
 
+      for (last of period);
+      last.setUTCDate(last.getUTCDate() + 1); // end is not included
+      assert.deepEqual(last, end);
+
+      period = createPeriod({start, duration, recurrence: 7});
+
+      assert.deepEqual(period[Symbol.iterator]().next().value, start);
+
+      for (last of period);
+      assert.deepEqual(last, end);
+    });
+  });
+
+  describe('#toArray()', () => {
+    it('should return generated result', () => {
+      let start = new Date('2013-06-30T12:30:00Z'),
+        arr = createPeriod({start, duration, recurrence: 7}).toArray();
+
+      assert.ok(Array.isArray(arr));
+      assert.equal(arr.length, 8);
       assert.doesNotThrow(function () {
-        Array.prototype.forEach.call(period, () => {});
+        Array.prototype.forEach.call(arr, () => {});
       });
     });
 
     it('should not include end date as last item', () => {
-      let period = createPeriod(start, 'P1D', end).toArray(),
+      let period = createPeriod({start, duration, end}).toArray(),
         testEnd = new Date(+start);
 
       testEnd.setDate(testEnd.getDate() + 6);
@@ -49,28 +95,33 @@ describe('Period', () => {
       thisEnd.setDate(thisEnd.getDate() + 7);
       thisEnd.setHours(thisEnd.getHours() - 12);
 
-      let period = createPeriod(start, 'P1D', thisEnd).toArray();
+      let arr = createPeriod({start, duration, end: thisEnd}).toArray();
 
-      assert.equal(period.length, 7, 'shortened end should affect length');
+      assert.equal(arr.length, 7, 'shortened end should affect length');
 
       thisEnd = new Date(+start);
       thisEnd.setDate(thisEnd.getDate() + 7);
       thisEnd.setHours(thisEnd.getHours() + 12);
 
-      period = createPeriod(start, 'P1D', thisEnd).toArray();
-      assert.equal(period.length, 8, 'stretched end should not affect length');
+      arr = createPeriod({start, duration, end: thisEnd}).toArray();
+      assert.equal(arr.length, 8, 'stretched end should not affect length');
     });
 
     it('should parse a string in ISO format', () => {
-      let period = createPeriod('R4/2015-10-25T00:00:00Z/PT1H').toArray();
+      assert.throws(() => {
+        createPeriod({iso: 'abc'});
+      });
 
-      assert.equal(5, period.length);
-      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), period[0]);
-      assert.deepEqual(new Date('2015-10-25T04:00:00Z'), period[4]);
+      let arr = createPeriod({iso: 'R4/2015-10-25T00:00:00Z/PT1H'}).toArray();
 
-      period = createPeriod('R4/2015-10-25T00:00:00Z/P1M').toArray();
-      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), period[0]);
-      assert.deepEqual(new Date('2015-11-25T00:00:00Z'), period[1]);
+      assert.equal(5, arr.length);
+      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), arr[0]);
+      assert.deepEqual(new Date('2015-10-25T04:00:00Z'), arr[4]);
+
+      arr = createPeriod({iso: 'R4/2015-10-25T00:00:00Z/P1M'}).toArray();
+
+      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), arr[0]);
+      assert.deepEqual(new Date('2015-11-25T00:00:00Z'), arr[1]);
     });
 
     it('should handle date-like objects with a toDate method', () => {
@@ -80,10 +131,10 @@ describe('Period', () => {
       }
 
       let dummy = new CustomDate(start),
-        period = createPeriod(dummy, 'PT1H30M', 3).toArray();
+        arr = createPeriod({start: dummy, duration: 'PT1H30M', recurrence: 3}).toArray();
 
-      assert(period.length === 4);
-      assert.deepEqual(period[0], start);
+      assert(arr.length === 4);
+      assert.deepEqual(arr[0], start);
     });
 
     it('should handle duration objects with a toString method', () => {
@@ -93,27 +144,17 @@ describe('Period', () => {
       }
 
       let dummy = new CustomDuration('P1D'),
-        period = createPeriod(start, dummy, 3).toArray();
+        arr = createPeriod({start, duration: dummy, recurrence: 3}).toArray();
 
-      assert(period.length === 4);
-      assert.deepEqual(period[0], start);
-    });
-  });
-
-  describe('#toArray()', () => {
-    it('should return generated result', () => {
-      let start = new Date('2013-06-30T12:30:00Z'),
-        arr = createPeriod(start, 'P1D', 7).toArray();
-
-      assert.ok(Array.isArray(arr));
-      assert.equal(arr.length, 8);
+      assert(arr.length === 4);
+      assert.deepEqual(arr[0], start);
     });
   });
 
   describe('#toString()', () => {
     it('should return a string', () => {
       let start = new Date('2013-06-30T12:30:00Z'),
-        str = createPeriod(start, 'P1D', 7).toString();
+        str = createPeriod({start, duration, recurrence: 7}).toString();
 
       assert.equal(typeof str, 'string');
       assert.equal(str, 'R7/2013-06-30T12:30:00.000Z/P1D');
