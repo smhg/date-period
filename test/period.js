@@ -19,7 +19,9 @@ describe('Period', () => {
 
     it('should validate parameters', () => {
       assert.throws(() => { createPeriod('2013-12-01'); });
-      assert.throws(() => { createPeriod('2013-12-01', 'P1D', 'abc'); });
+      assert.throws(() => { createPeriod(new Date('2013-12-01T00:00:00Z'), 1); });
+      assert.throws(() => { createPeriod(new Date('2013-12-01T00:00:00Z'), 'P1D', 'abc'); });
+      assert.throws(() => { createPeriod(new Date('2013-12-01T00:00:00Z'), 'P1D', new Date('2013-11-01T00:00:00Z')); });
     });
 
     it('should be iterable', () => {
