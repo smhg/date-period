@@ -7,6 +7,8 @@ A time period in this context is an iterable collection of Date objects, recurri
 Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
 ## Usage
+> **1.0 API note:** a period instance is now an ES6 iterable (iterate with `for ... of`). In ES5 use-cases, you'll have to call `toArray`, on which you can then use the regular array-methods.
+
 #### Period(start, duration, end)
 #### Period(start, duration, recurrences)
 #### Period(ISOString)
@@ -31,10 +33,3 @@ for (let date of period) {
 }
 ```
 > **Note:** the date and duration parameters can be objects which have, respectively, `toDate` and `toString` methods. This way [moment](http://momentjs.com) objects are supported.
-
-The `period` variable in the example above also has a `toArray()` method for use with ES5:
-```javascript
-period.toArray().forEach(function (date) {
-	//...
-});
-```
