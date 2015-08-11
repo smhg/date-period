@@ -9,27 +9,32 @@ Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperio
 ## Usage
 > **1.0 API note:** a period instance is now an ES6 iterable (iterate with `for ... of`). In ES5 use-cases, you'll have to call `toArray`, on which you can then use the regular array-methods.
 
-#### Period(start, duration, end)
-#### Period(start, duration, recurrences)
-#### Period(ISOString)
+#### Period({start: Date, duration: String, end: Date})
+#### Period({start: Date, duration: String, recurrence: Number})
+#### Period({iso: String})
 ```javascript
 let start = new Date('2014-01-01T00:00:00Z'),
-	end = new Date(+start),
+	duration = 'P1D',
+	end = new Date('2014-01-05T00:00:00Z'), // not included in result
 	period;
 
-end.setUTCDate(end.getUTCDate() + 4); // end date itself won't be included 
-
-period = Period(start, 'P1D', end);
+period = Period({start, duration, end});
 
 // or, with the number of recurrences instead of an end date:
-period = Period(start, 'P1D', 3);
+period = Period({start, duration, recurrence: 3});
 
 // or, with a string formatted as an ISO 8601 repeating interval:
-period = Period('R3/2014-01-01T00:00:00Z/P1D');
+period = Period({iso: 'R3/2014-01-01T00:00:00Z/P1D'});
 
 // in any case, period is an iterable object:
 for (let date of period) {
-	//...
+	/**
+	 * will go over these dates:
+	 * 2014-01-01T00:00:00Z
+	 * 2014-01-02T00:00:00Z
+	 * 2014-01-03T00:00:00Z
+	 * 2014-01-04T00:00:00Z
+	 */
 }
 ```
 > **Note:** the date and duration parameters can be objects which have, respectively, `toDate` and `toString` methods. This way [moment](http://momentjs.com) objects are supported.
