@@ -5,12 +5,13 @@
   "main": "dist/period.js",
   "scripts": {
     "lint": "eslint src test",
-    "mocha": "mocha --compilers js:babel/register test",
-    "test": "istanbul cover _mocha test -- --require babel/register -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "test": "mocha --compilers js:babel/register test",
+    "coverage": "istanbul cover _mocha test -- --require babel/register -R spec && opn coverage/lcov-report/index.html",
+    "coveralls": "istanbul cover _mocha --report lcovonly test -- --require babel/register -R spec && cat ./coverage/lcov.info | coveralls",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
     "build": "npm run lint && npm test && babel src --optional runtime --source-maps -d dist",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -rf coverage",
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
@@ -42,7 +43,8 @@
     "eslint": "^1.1.0",
     "istanbul": "^0.3.17",
     "mocha": "^2.2.5",
-    "mocha-lcov-reporter": "0.0.2"
+    "mocha-lcov-reporter": "0.0.2",
+    "opn-cli": "^1.0.0"
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",
