@@ -14,11 +14,12 @@ describe('Period', () => {
     });
 
     it('should require parameters', () => {
-      assert.throws(() => { createPeriod(); }, 'constructor should expect parameters');
+      assert.throws(() => { createPeriod(); });
     });
 
     it('should validate parameters', () => {
-      assert.throws(() => { createPeriod('2013-12-01'); }, 'constructor should not allow invalid parameters');
+      assert.throws(() => { createPeriod('2013-12-01'); });
+      assert.throws(() => { createPeriod('2013-12-01', 'P1D', 'abc'); });
     });
 
     it('should be iterable', () => {
@@ -94,6 +95,16 @@ describe('Period', () => {
 
       assert(period.length === 4);
       assert.deepEqual(period[0], start);
+    });
+  });
+
+  describe('#toArray()', () => {
+    it('should return generated result', () => {
+      let start = new Date('2013-06-30T12:30:00Z'),
+        arr = createPeriod(start, 'P1D', 7).toArray();
+
+      assert.ok(Array.isArray(arr));
+      assert.equal(arr.length, 8);
     });
   });
 
