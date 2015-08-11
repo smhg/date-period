@@ -1,4 +1,4 @@
-date-period [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period)
+date-period [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period) [![Coverage Status](https://coveralls.io/repos/smhg/date-period/badge.svg?branch=master&service=github)](https://coveralls.io/github/smhg/date-period?branch=master)
 ======
 Time period iterator.
 
@@ -7,9 +7,9 @@ A time period in this context is an iterable collection of Date objects, recurri
 Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
 ## Usage
-#### new Period(start, duration, end)
-#### new Period(start, duration, recurrences)
-#### new Period(ISOString)
+#### Period(start, duration, end)
+#### Period(start, duration, recurrences)
+#### Period(ISOString)
 ```javascript
 let start = new Date('2014-01-01T00:00:00Z'),
 	end = new Date(+start),

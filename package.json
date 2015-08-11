@@ -5,7 +5,8 @@
   "main": "dist/period.js",
   "scripts": {
     "lint": "eslint src test",
-    "test": "babel-node -r node_modules/.bin/_mocha test",
+    "mocha": "mocha --compilers js:babel/register test",
+    "test": "istanbul cover _mocha test -- --require babel/register -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
     "build": "npm run lint && npm test && babel src --optional runtime --source-maps -d dist",
@@ -37,8 +38,11 @@
   "devDependencies": {
     "babel": "^5.8.21",
     "babel-eslint": "^4.0.5",
+    "coveralls": "^2.11.3",
     "eslint": "^1.1.0",
-    "mocha": "^2.2.5"
+    "istanbul": "^0.3.17",
+    "mocha": "^2.2.5",
+    "mocha-lcov-reporter": "0.0.2"
   },
   "dependencies": {
     "babel-runtime": "^5.8.20",

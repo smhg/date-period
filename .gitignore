@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 *.sublime-*
 dist
+coverage
+.coveralls.yml
