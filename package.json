@@ -8,12 +8,11 @@
     "test": "mocha --compilers js:babel/register test",
     "coverage": "istanbul cover _mocha test -- --require babel/register -R spec && opn coverage/lcov-report/index.html",
     "coveralls": "istanbul cover _mocha --report lcovonly test -- --require babel/register -R spec && cat ./coverage/lcov.info | coveralls",
-    "preversion": "npm run lint && npm test",
+    "preversion": "npm run lint && npm test && npm build",
     "postversion": "git push && git push --tags",
     "build": "npm run lint && npm test && babel src --optional runtime --source-maps -d dist",
     "clean": "rm -rf dist && rm -rf coverage",
-    "prepublish": "npm run build",
-    "postpublish": "npm run clean"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
