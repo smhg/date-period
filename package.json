@@ -36,17 +36,17 @@
   },
   "homepage": "https://github.com/smhg/date-period#readme",
   "devDependencies": {
-    "babel": "^5.8.21",
-    "babel-eslint": "^4.0.5",
-    "coveralls": "^2.11.4",
-    "eslint": "^1.1.0",
-    "istanbul": "^0.3.17",
-    "mocha": "^2.2.5",
-    "mocha-lcov-reporter": "0.0.2",
-    "opn-cli": "^1.0.0"
+    "babel": "5.8.34",
+    "babel-eslint": "4.1.6",
+    "coveralls": "2.11.4",
+    "eslint": "1.10.2",
+    "istanbul": "0.4.1",
+    "mocha": "2.3.4",
+    "mocha-lcov-reporter": "1.0.0",
+    "opn-cli": "1.0.0"
   },
   "dependencies": {
-    "babel-runtime": "^5.8.20",
-    "date-duration": "^0.1.0"
+    "babel-runtime": "5.8.34",
+    "date-duration": "0.1.0"
   }
 }
