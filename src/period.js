@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel-polyfill');
+
 import createDuration from 'date-duration';
 
 let filterDate = (date) => {

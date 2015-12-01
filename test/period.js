@@ -1,7 +1,7 @@
 'use strict';
 
 import assert from 'assert';
-import createPeriod from '../src/period';
+import createPeriod from '../dist/period';
 
 describe('Period', () => {
   let start, end, duration;

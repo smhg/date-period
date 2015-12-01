@@ -6,8 +6,14 @@ A time period in this context is an iterable collection of Date objects, recurri
 
 Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
+## Installation
+date-period requires [babel-polyfill](https://babeljs.io/docs/usage/polyfill/).
+```bash
+$ npm install date-period babel-polyfill --save
+```
+
 ## Usage
-> **1.0 API note:** a period instance is now an ES6 iterable (iterate with `for ... of`). In ES5 use-cases, you'll have to call `toArray`, on which you can then use the regular array-methods.
+> **1.x API note:** a period instance is now an ES6 iterable (iterate with `for ... of`). In ES5 use-cases, you'll have to call `toArray`, on which you can then use the regular array-methods.
 
 #### Period({start: Date, duration: String, end: Date})
 #### Period({start: Date, duration: String, recurrence: Number})
