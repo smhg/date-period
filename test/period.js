@@ -118,10 +118,10 @@ describe('Period', () => {
       assert.deepEqual(new Date('2015-10-25T00:00:00Z'), arr[0]);
       assert.deepEqual(new Date('2015-10-25T04:00:00Z'), arr[4]);
 
-      arr = createPeriod({iso: 'R4/2015-10-25T00:00:00Z/P1M'}).toArray();
+      arr = createPeriod({iso: 'R4/2015-10-25T00:00:00Z/P1W'}).toArray();
 
       assert.deepEqual(new Date('2015-10-25T00:00:00Z'), arr[0]);
-      assert.deepEqual(new Date('2015-11-25T00:00:00Z'), arr[1]);
+      assert.deepEqual(new Date('2015-11-01T00:00:00Z'), arr[1]);
     });
 
     it('should handle date-like objects with a toDate method', () => {
