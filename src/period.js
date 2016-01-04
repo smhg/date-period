@@ -4,7 +4,7 @@ require('babel-polyfill');
 
 import createDuration from 'date-duration';
 
-let filterDate = (date) => {
+const filterDate = (date) => {
   if (typeof date.toDate === 'function') {
     date = date.toDate();
   }
