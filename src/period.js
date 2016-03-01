@@ -4,7 +4,7 @@ require('babel-polyfill');
 
 import createDuration from 'date-duration';
 
-const filterDate = (date) => {
+const filterDate = date => {
   if (typeof date.toDate === 'function') {
     date = date.toDate();
   }
@@ -16,7 +16,7 @@ const filterDate = (date) => {
   return new Date(+date);
 };
 
-export default function createPeriod (spec) {
+function createPeriod (spec) {
   let {start, duration, end, recurrence} = spec;
 
   if (spec.iso) {
@@ -73,15 +73,11 @@ export default function createPeriod (spec) {
         }
       }
     },
-    toArray: () => {
-      return Array.from(period);
-    },
-    toString: () => {
-      let result = period.toArray();
-
-      return `R${result.length - 1}/${start.toISOString()}/${duration}`;
-    }
+    toArray: () => Array.from(period),
+    toString: () => `R${period.toArray().length - 1}/${start.toISOString()}/${duration}`
   };
 
   return Object.freeze(period);
 }
+
+export default createPeriod;
