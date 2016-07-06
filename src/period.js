@@ -16,19 +16,16 @@ const filterDate = date => {
   return new Date(+date);
 };
 
-function createPeriod (spec) {
-  let {start, duration, end, recurrence} = spec;
-
-  if (spec.iso) {
-    if (typeof spec.iso !== 'string' || spec.iso[0] !== 'R') {
+function createPeriod ({start, duration, end, recurrence, iso}) {
+  if (iso) {
+    if (typeof iso !== 'string' || iso[0] !== 'R') {
       throw new Error('Invalid ISO interval');
     }
 
-    let iso = spec.iso.split(/\//);
+    [recurrence, start, duration] = iso.split(/\//);
 
-    start = new Date(iso[1]);
-    duration = iso[2];
-    recurrence = parseInt(iso[0].substr(1), 10);
+    start = new Date(start);
+    recurrence = parseInt(recurrence.substr(1), 10);
   }
 
   start = filterDate(start);
