@@ -67,6 +67,22 @@ describe('Period', () => {
       for (last of period);
       assert.deepEqual(last, end);
     });
+
+    it('should handle DST', () => {
+      let period = createPeriod({start: new Date('Mon Oct 24 2016 00:00:00 GMT+0200 (CEST)'), duration: 'P1W', recurrence: 1}),
+        iterator = period[Symbol.iterator]();
+
+      iterator.next();
+
+      assert.deepEqual(new Date('Mon Oct 31 2016 00:00:00 GMT+0100 (CET)'), iterator.next().value);
+
+      period = createPeriod({start: new Date('Sun Oct 30 2016 02:00:00 GMT+0200 (CEST)'), duration: 'PT1H', recurrence: 1});
+      iterator = period[Symbol.iterator]();
+
+      iterator.next();
+
+      assert.deepEqual(new Date('Sun Oct 30 2016 02:00:00 GMT+0100 (CET)'), iterator.next().value);
+    });
   });
 
   describe('#toArray()', () => {
@@ -112,16 +128,11 @@ describe('Period', () => {
         createPeriod({iso: 'abc'});
       });
 
-      let arr = createPeriod({iso: 'R4/2015-10-25T00:00:00Z/PT1H'}).toArray();
+      let arr = createPeriod({iso: 'R4/2015-09-10T00:00:00Z/PT1H'}).toArray();
 
       assert.equal(5, arr.length);
-      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), arr[0]);
-      assert.deepEqual(new Date('2015-10-25T04:00:00Z'), arr[4]);
-
-      arr = createPeriod({iso: 'R4/2015-10-25T00:00:00Z/P1W'}).toArray();
-
-      assert.deepEqual(new Date('2015-10-25T00:00:00Z'), arr[0]);
-      assert.deepEqual(new Date('2015-11-01T00:00:00Z'), arr[1]);
+      assert.deepEqual(new Date('2015-09-10T00:00:00Z'), arr[0]);
+      assert.deepEqual(new Date('2015-09-10T04:00:00Z'), arr[4]);
     });
 
     it('should handle date-like objects with a toDate method', () => {
