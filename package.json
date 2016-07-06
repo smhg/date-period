@@ -8,7 +8,7 @@
     "coverage": "TZ=Europe/Brussels istanbul cover _mocha test -- --require babel-register -R spec && opn coverage/lcov-report/index.html",
     "coveralls": "TZ=Europe/Brusselsistanbul cover _mocha --report lcovonly test -- --require babel-register -R spec && cat ./coverage/lcov.info | coveralls",
     "build": "babel --source-maps -d dist/ src/",
-    "test": "npm run lint && TZ=Europe/Brussels npm run build && mocha --compilers js:babel-register test",
+    "test": "npm run lint && npm run build && TZ=Europe/Brussels mocha --compilers js:babel-register test",
     "clean": "rm -rf dist && rm -rf coverage",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags",
