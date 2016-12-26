@@ -24,10 +24,10 @@
   },
   "homepage": "https://github.com/smhg/date-period",
   "dependencies": {
-    "moment": "2.10.3"
+    "moment": "~2"
   },
   "devDependencies": {
     "eslint": "0.24.1",
-    "mocha": "2.2.5"
+    "mocha": "2.5.3"
   }
 }

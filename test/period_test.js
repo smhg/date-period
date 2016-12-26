@@ -57,7 +57,7 @@ describe('Period', function () {
         str = period.toString();
 
       assert.equal(typeof str, 'string');
-      assert.equal(str, 'R7/2013-06-30T12:30:00+00:00/P1D');
+      assert.equal(str, 'R7/' + start.format() + '/P1D');
     });
   });
 });
