@@ -13,7 +13,7 @@
     "clean": "rm -rf dist && rm -rf coverage",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags",
-    "prepublish": "npm run test",
+    "prepublishOnly": "npm run test",
     "postpublish": "npm run clean"
   },
   "repository": {
