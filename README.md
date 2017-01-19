@@ -1,4 +1,4 @@
-date-period [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period) [![Coverage Status](https://coveralls.io/repos/smhg/date-period/badge.svg?branch=master&service=github)](https://coveralls.io/github/smhg/date-period?branch=master)
+date-period [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period)
 ======
 Time period iterator.
 
