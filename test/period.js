@@ -4,7 +4,9 @@ import assert from 'assert';
 import createPeriod from '../dist/period';
 
 describe('Period', () => {
-  let start, end, duration;
+  let start;
+  let end;
+  let duration;
 
   beforeEach(() => {
     start = new Date();
@@ -51,8 +53,8 @@ describe('Period', () => {
     });
 
     it('should be iterable', () => {
-      let period = createPeriod({start, duration, end}),
-        last;
+      let period = createPeriod({start, duration, end});
+      let last;
 
       assert.deepEqual(period[Symbol.iterator]().next().value, start);
 
@@ -69,8 +71,8 @@ describe('Period', () => {
     });
 
     it('should handle DST', () => {
-      let period = createPeriod({start: new Date('Mon Oct 24 2016 00:00:00 GMT+0200 (CEST)'), duration: 'P1W', recurrence: 1}),
-        iterator = period[Symbol.iterator]();
+      let period = createPeriod({start: new Date('Mon Oct 24 2016 00:00:00 GMT+0200 (CEST)'), duration: 'P1W', recurrence: 1});
+      let iterator = period[Symbol.iterator]();
 
       iterator.next();
 
@@ -87,8 +89,8 @@ describe('Period', () => {
 
   describe('#toArray()', () => {
     it('should return generated result', () => {
-      let start = new Date('2013-06-30T12:30:00Z'),
-        arr = createPeriod({start, duration, recurrence: 7}).toArray();
+      let start = new Date('2013-06-30T12:30:00Z');
+      let arr = createPeriod({start, duration, recurrence: 7}).toArray();
 
       assert.ok(Array.isArray(arr));
       assert.equal(arr.length, 8);
@@ -98,8 +100,8 @@ describe('Period', () => {
     });
 
     it('should not include end date as last item', () => {
-      let period = createPeriod({start, duration, end}).toArray(),
-        testEnd = new Date(+start);
+      let period = createPeriod({start, duration, end}).toArray();
+      let testEnd = new Date(+start);
 
       testEnd.setDate(testEnd.getDate() + 6);
 
@@ -137,12 +139,12 @@ describe('Period', () => {
 
     it('should handle date-like objects with a toDate method', () => {
       class CustomDate { // something like moment
-        constructor(date) { this.date = date; }
-        toDate() { return this.date; }
+        constructor (date) { this.date = date; }
+        toDate () { return this.date; }
       }
 
-      let dummy = new CustomDate(start),
-        arr = createPeriod({start: dummy, duration: 'PT1H30M', recurrence: 3}).toArray();
+      let dummy = new CustomDate(start);
+      let arr = createPeriod({start: dummy, duration: 'PT1H30M', recurrence: 3}).toArray();
 
       assert(arr.length === 4);
       assert.deepEqual(arr[0], start);
@@ -150,12 +152,12 @@ describe('Period', () => {
 
     it('should handle duration objects with a toString method', () => {
       class CustomDuration { // something like moment.duration
-        constructor(isoString) { this.isoString = isoString; }
-        toString() { return this.isoString; }
+        constructor (isoString) { this.isoString = isoString; }
+        toString () { return this.isoString; }
       }
 
-      let dummy = new CustomDuration('P1D'),
-        arr = createPeriod({start, duration: dummy, recurrence: 3}).toArray();
+      let dummy = new CustomDuration('P1D');
+      let arr = createPeriod({start, duration: dummy, recurrence: 3}).toArray();
 
       assert(arr.length === 4);
       assert.deepEqual(arr[0], start);
@@ -164,8 +166,8 @@ describe('Period', () => {
 
   describe('#toString()', () => {
     it('should return a string', () => {
-      let start = new Date('2013-06-30T12:30:00Z'),
-        str = createPeriod({start, duration, recurrence: 7}).toString();
+      let start = new Date('2013-06-30T12:30:00Z');
+      let str = createPeriod({start, duration, recurrence: 7}).toString();
 
       assert.equal(typeof str, 'string');
       assert.equal(str, 'R7/2013-06-30T12:30:00.000Z/P1D');
