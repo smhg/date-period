@@ -1,7 +1,6 @@
 'use strict';
 
-require('babel-polyfill');
-
+import 'babel-polyfill';
 import createDuration from 'date-duration';
 
 const filterDate = date => {
@@ -55,7 +54,7 @@ function createPeriod ({start, duration, end, recurrence, iso}) {
   }
 
   let period = {
-    *[Symbol.iterator] () {
+    * [Symbol.iterator] () {
       let date = new Date(+start);
 
       if (end) {
