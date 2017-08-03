@@ -5,13 +5,12 @@
   "main": "dist/period.js",
   "scripts": {
     "lint": "eslint src test",
-    "build": "babel --source-maps -d dist/ src/",
-    "mocha": "TZ=Europe/Brussels mocha --compilers js:babel-register test",
-    "test": "npm run lint && npm run build && npm run mocha",
+    "build": "babel --source-maps -d dist src",
+    "test": "TZ=Europe/Brussels mocha --compilers js:babel-register test",
     "clean": "rm -rf dist",
-    "preversion": "npm run test",
+    "preversion": "npm run lint && npm run test",
     "postversion": "git push && git push --tags",
-    "prepublishOnly": "npm run test",
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
     "postpublish": "npm run clean"
   },
   "repository": {
