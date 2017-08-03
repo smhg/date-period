@@ -12,7 +12,7 @@ $ npm install date-period --save
 ```
 
 ## Usage
-> **1.x API note:** a period instance is now an ES6 iterable (iterate with `for ... of`). In ES5 use-cases, you'll have to call `toArray`, on which you can then use the regular array-methods.
+> **ES5 note:** since version 1.0.0 a period instance is an ES6 iterable (iterate with `for ... of`). For ES5 use-cases call `toArray` first, after which you can use array-methods.
 
 #### Period({start: Date, duration: String, end: Date})
 #### Period({start: Date, duration: String, recurrence: Number})
