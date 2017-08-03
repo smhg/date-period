@@ -7,9 +7,8 @@ A time period in this context is an iterable collection of Date objects, recurri
 Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperiod.php) class.
 
 ## Installation
-date-period requires [babel-polyfill](https://babeljs.io/docs/usage/polyfill/).
 ```bash
-$ npm install date-period babel-polyfill --save
+$ npm install date-period --save
 ```
 
 ## Usage
