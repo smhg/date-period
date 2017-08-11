@@ -49,6 +49,6 @@
   },
   "dependencies": {
     "babel-runtime": "^6.25.0",
-    "date-duration": "^1.1.1"
+    "date-duration": "^1.1.2"
   }
 }
