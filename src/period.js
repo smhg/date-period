@@ -32,10 +32,6 @@ function createPeriod ({start, duration, end, recurrence, iso}) {
     duration = duration.toString();
   }
 
-  if (typeof duration !== 'string' || duration[0] !== 'P') {
-    throw new Error('Invalid duration');
-  }
-
   duration = createDuration(duration);
 
   if (end) {
@@ -55,7 +51,6 @@ function createPeriod ({start, duration, end, recurrence, iso}) {
   let period = {
     * [Symbol.iterator] () {
       let date = new Date(+start);
-
       if (end) {
         while (date < end) {
           yield new Date(+date);
