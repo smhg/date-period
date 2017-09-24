@@ -40,6 +40,10 @@ describe('Period', () => {
       });
 
       assert.throws(() => {
+        createPeriod({start, duration: 'P0D', end});
+      });
+
+      assert.throws(() => {
         createPeriod({start, duration, recurrence: 'abc'});
       });
 

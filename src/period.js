@@ -17,7 +17,7 @@ const filterDate = date => {
 function createPeriod ({start, duration, end, recurrence, iso}) {
   if (iso) {
     if (typeof iso !== 'string' || iso[0] !== 'R') {
-      throw new Error('Invalid ISO interval');
+      throw new Error('Invalid period (invalid ISO format)');
     }
 
     [recurrence, start, duration] = iso.split(/\//);
@@ -38,27 +38,35 @@ function createPeriod ({start, duration, end, recurrence, iso}) {
     end = filterDate(end);
   } else if (recurrence) {
     if (typeof recurrence !== 'number') {
-      throw new Error('Invalid number of recurrences');
+      throw new Error('Invalid period (invalid number of recurrences)');
     }
   } else {
-    throw new Error('Invalid parameters, missing end or number of recurrences');
+    throw new Error('Invalid period (missing end or number of recurrences)');
   }
 
   if (end && start >= end) {
-    throw new Error('Invalid parameters, end needs to be after start');
+    throw new Error('Invalid period (end needs to be after start)');
+  }
+
+  if (+start === +duration.addTo(start)) {
+    throw new Error(`Invalid period (no duration)`);
   }
 
   let period = {
     * [Symbol.iterator] () {
       let date = new Date(+start);
+      yield date;
+
+      date = duration.addTo(date);
+
       if (end) {
         while (date < end) {
-          yield new Date(+date);
+          yield date;
           date = duration.addTo(date);
         }
       } else {
-        for (let i = 0; i <= recurrence; i++) {
-          yield new Date(+date);
+        for (let i = 0; i < recurrence; i++) {
+          yield date;
           date = duration.addTo(date);
         }
       }
