@@ -12,11 +12,33 @@ $ npm install date-period --save
 ```
 
 ## Use
-> **ES5 note:** since version 1.0.0 a period instance is an ES6 iterable (iterate with `for ... of`). For ES5 use-cases call `toArray` first, after which you can use array-methods.
 
-#### Period({start: Date, duration: String, end: Date})
-#### Period({start: Date, duration: String, recurrence: Number})
-#### Period({iso: String})
+### API
+
+#### Start, duration and end date: 
+
+`Period({start: Date, duration: String, end: Date}) ⇒ Iterable<Date>`
+
+#### Start, duration, and number of recurrences:
+
+`Period({start: Date, duration: String, recurrence: Number}) ⇒ Iterable<Date>`
+
+#### ISO 8601 Repeating time intervals:
+
+`Period({iso: String}) ⇒ Iterable<Date>`
+
+The date and duration parameters can be objects which have, respectively, `toDate` and `toString` methods. This way [moment](http://momentjs.com) objects are supported.
+
+### Example
+
+Require the module
+
+```javascript
+const Period = require('date-period').default
+```
+
+#### Define a period
+
 ```javascript
 let start = new Date('2014-01-01T00:00:00Z'),
 	duration = 'P1D',
@@ -30,8 +52,13 @@ period = Period({start, duration, recurrence: 3});
 
 // or, with a string formatted as an ISO 8601 repeating interval:
 period = Period({iso: 'R3/2014-01-01T00:00:00Z/P1D'});
+```
 
-// in any case, period is an iterable object:
+#### Iteration with ES6 for/of
+
+Period is an interable object.
+
+```javascript
 for (let date of period) {
 	/**
 	 * will go over these dates:
@@ -42,4 +69,20 @@ for (let date of period) {
 	 */
 }
 ```
-> **Note:** the date and duration parameters can be objects which have, respectively, `toDate` and `toString` methods. This way [moment](http://momentjs.com) objects are supported.
+
+#### Iteration as an array (for ES5)
+
+Since version 1.0.0 a period instance is an ES6 iterable. Convert the iterable to an array with `period.toArray()`.
+
+```javascript
+period.toArray().forEach(function (period) {
+	/**
+	 * will go over these dates:
+	 * 2014-01-01T00:00:00Z
+	 * 2014-01-02T00:00:00Z
+	 * 2014-01-03T00:00:00Z
+	 * 2014-01-04T00:00:00Z
+	 */
+})
+```
+
