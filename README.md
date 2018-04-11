@@ -11,7 +11,7 @@ Mimics PHP's excellent [DatePeriod](http://www.php.net/manual/en/class.dateperio
 $ npm install date-period --save
 ```
 
-## Usage
+## Use
 > **ES5 note:** since version 1.0.0 a period instance is an ES6 iterable (iterate with `for ... of`). For ES5 use-cases call `toArray` first, after which you can use array-methods.
 
 #### Period({start: Date, duration: String, end: Date})
