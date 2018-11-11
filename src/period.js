@@ -14,7 +14,7 @@ const filterDate = date => {
   return new Date(+date);
 };
 
-function createPeriod ({start, duration, end, recurrence, iso}) {
+function createPeriod ({ start, duration, end, recurrence, iso }) {
   if (iso) {
     if (typeof iso !== 'string' || iso[0] !== 'R') {
       throw new Error('Invalid period (invalid ISO format)');
