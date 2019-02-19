@@ -14,6 +14,15 @@ const filterDate = date => {
   return new Date(+date);
 };
 
+/**
+ * constructor
+ * @param  {Date} options.start Start date
+ * @param  {Object|string} options.duration Duration
+ * @param  {Date} options.end End date
+ * @param  {number} options.recurrence Recurrences
+ * @param  {string} options.iso Duration in ISO 8601 format
+ * @return {Object} Period
+ */
 function createPeriod ({ start, duration, end, recurrence, iso }) {
   if (iso) {
     if (typeof iso !== 'string' || iso[0] !== 'R') {
