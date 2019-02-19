@@ -3,10 +3,11 @@
   "version": "2.2.1",
   "description": "Time period iterator",
   "main": "dist/period.js",
+  "module": "src/period.js",
   "scripts": {
     "lint": "eslint src test",
     "build": "babel --source-maps -d dist src",
-    "test": "TZ=Europe/Brussels mocha --require babel-core/register",
+    "test": "TZ=Europe/Brussels mocha --require @babel/register",
     "clean": "rm -rf dist",
     "preversion": "npm run lint && npm run test",
     "postversion": "git push && git push --tags",
@@ -35,20 +36,28 @@
   },
   "homepage": "https://github.com/smhg/date-period#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/register": "^7.0.0",
     "eslint": "^5.14.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.0.0"
+    "mocha": "^6.0.0",
+    "regenerator-runtime": "^0.13.1"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "^7.3.1",
     "date-duration": "^1.4.1"
-  }
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ]
 }

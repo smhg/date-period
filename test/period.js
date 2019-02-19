@@ -75,19 +75,33 @@ describe('Period', () => {
     });
 
     it('should handle DST', () => {
-      let period = createPeriod({ start: new Date('Mon Oct 24 2016 00:00:00 GMT+0200 (CEST)'), duration: 'P1W', recurrence: 1 });
+      let period = createPeriod({
+        start: new Date('Mon Oct 24 2016 00:00:00 GMT+0200 (CEST)'),
+        duration: 'P1W',
+        recurrence: 1
+      });
       let iterator = period[Symbol.iterator]();
 
       iterator.next();
 
-      assert.deepStrictEqual(new Date('Mon Oct 31 2016 00:00:00 GMT+0100 (CET)'), iterator.next().value);
+      assert.deepStrictEqual(
+        new Date('Mon Oct 31 2016 00:00:00 GMT+0100 (CET)'),
+        iterator.next().value
+      );
 
-      period = createPeriod({ start: new Date('Sun Oct 30 2016 02:00:00 GMT+0200 (CEST)'), duration: 'PT1H', recurrence: 1 });
+      period = createPeriod({
+        start: new Date('Sun Oct 30 2016 02:00:00 GMT+0200 (CEST)'),
+        duration: 'PT1H',
+        recurrence: 1
+      });
       iterator = period[Symbol.iterator]();
 
       iterator.next();
 
-      assert.deepStrictEqual(new Date('Sun Oct 30 2016 02:00:00 GMT+0100 (CET)'), iterator.next().value);
+      assert.deepStrictEqual(
+        new Date('Sun Oct 30 2016 02:00:00 GMT+0100 (CET)'),
+        iterator.next().value
+      );
     });
   });
 
@@ -148,7 +162,11 @@ describe('Period', () => {
       }
 
       let dummy = new CustomDate(start);
-      let arr = createPeriod({ start: dummy, duration: 'PT1H30M', recurrence: 3 }).toArray();
+      let arr = createPeriod({
+        start: dummy,
+        duration: 'PT1H30M',
+        recurrence: 3
+      }).toArray();
 
       assert(arr.length === 4);
       assert.deepStrictEqual(arr[0], start);
