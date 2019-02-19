@@ -89,9 +89,10 @@ describe('Period', () => {
         iterator.next().value
       );
 
+      // date-duration ignores timezone differences when adding time units
       period = createPeriod({
         start: new Date('Sun Oct 30 2016 02:00:00 GMT+0200 (CEST)'),
-        duration: 'PT1H',
+        duration: 'PT2H',
         recurrence: 1
       });
       iterator = period[Symbol.iterator]();
@@ -99,7 +100,7 @@ describe('Period', () => {
       iterator.next();
 
       assert.deepStrictEqual(
-        new Date('Sun Oct 30 2016 02:00:00 GMT+0100 (CET)'),
+        new Date('Sun Oct 30 2016 03:00:00 GMT+0100 (CET)'),
         iterator.next().value
       );
     });
