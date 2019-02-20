@@ -51,9 +51,10 @@
     "regenerator-runtime": "^0.13.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
     "@babel/polyfill": "^7.2.5",
-    "date-duration": "^1.5.1"
+    "@babel/runtime": "^7.3.1",
+    "date-duration": "^1.7.0",
+    "debug": "^4.1.1"
   },
   "browserslist": [
     "last 1 version",

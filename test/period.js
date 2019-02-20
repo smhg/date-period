@@ -40,7 +40,8 @@ describe('Period', () => {
       });
 
       assert.throws(() => {
-        createPeriod({ start, duration: 'P0D', end });
+        // we can't have infinite loops
+        Array.from(createPeriod({ start, duration: 'P0D', end }));
       });
 
       assert.throws(() => {

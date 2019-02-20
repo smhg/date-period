@@ -1,6 +1,9 @@
 'use strict';
 
 import createDuration from 'date-duration';
+import createDebug from 'debug';
+
+const debug = createDebug('date-period');
 
 const filterDate = date => {
   if (typeof date.toDate === 'function') {
@@ -12,6 +15,16 @@ const filterDate = date => {
   }
 
   return new Date(+date);
+};
+
+const addDuration = (date, duration) => {
+  const result = duration.addTo(date);
+
+  if (+date === +result) {
+    throw new Error(`Invalid period (invalid duration '${duration}')`);
+  }
+
+  return result;
 };
 
 /**
@@ -45,7 +58,7 @@ function createPeriod ({ start, duration, end, recurrence, iso }) {
 
   if (end) {
     end = filterDate(end);
-  } else if (recurrence) {
+  } else if (typeof recurrence !== 'undefined') {
     if (typeof recurrence !== 'number') {
       throw new Error('Invalid period (invalid number of recurrences)');
     }
@@ -57,26 +70,26 @@ function createPeriod ({ start, duration, end, recurrence, iso }) {
     throw new Error('Invalid period (end needs to be after start)');
   }
 
-  if (+start === +duration.addTo(start)) {
-    throw new Error(`Invalid period (no duration)`);
-  }
-
   let period = {
     * [Symbol.iterator] () {
       let date = new Date(+start);
-      yield date;
-
-      date = duration.addTo(date);
 
       if (end) {
         while (date < end) {
+          debug(`hit ${date}`);
           yield date;
-          date = duration.addTo(date);
+
+          date = addDuration(date, duration);
         }
       } else {
+        debug(`hit ${date}`);
+        yield date;
+
         for (let i = 0; i < recurrence; i++) {
+          date = addDuration(date, duration);
+
+          debug(`hit ${date}`);
           yield date;
-          date = duration.addTo(date);
         }
       }
     },
