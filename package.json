@@ -54,7 +54,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/runtime": "^7.3.1",
     "date-duration": "^1.7.0",
-    "debug": "^4.1.1"
+    "debug": ">=3.2.6 || >= 4.1.1"
   },
   "browserslist": [
     "last 1 version",
