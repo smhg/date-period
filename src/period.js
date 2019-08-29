@@ -1,5 +1,3 @@
-'use strict';
-
 import createDuration from 'date-duration';
 import createDebug from 'debug';
 
