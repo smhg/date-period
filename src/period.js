@@ -70,7 +70,7 @@ function createPeriod ({ start, duration, end, recurrence, iso }) {
     throw new Error('Invalid period (end needs to be after start)');
   }
 
-  let period = {
+  const period = {
     * [Symbol.iterator] () {
       let date = new Date(+start);
 

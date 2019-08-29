@@ -109,8 +109,8 @@ describe('Period', () => {
 
   describe('#toArray()', () => {
     it('should return generated result', () => {
-      let start = new Date('2013-06-30T12:30:00Z');
-      let arr = createPeriod({ start, duration, recurrence: 7 }).toArray();
+      const start = new Date('2013-06-30T12:30:00Z');
+      const arr = createPeriod({ start, duration, recurrence: 7 }).toArray();
 
       assert.ok(Array.isArray(arr));
       assert.strictEqual(arr.length, 8);
@@ -120,8 +120,8 @@ describe('Period', () => {
     });
 
     it('should not include end date as last item', () => {
-      let period = createPeriod({ start, duration, end }).toArray();
-      let testEnd = new Date(+start);
+      const period = createPeriod({ start, duration, end }).toArray();
+      const testEnd = new Date(+start);
 
       testEnd.setDate(testEnd.getDate() + 6);
 
@@ -150,7 +150,7 @@ describe('Period', () => {
         createPeriod({ iso: 'abc' });
       });
 
-      let arr = createPeriod({ iso: 'R4/2015-09-10T00:00:00Z/PT1H' }).toArray();
+      const arr = createPeriod({ iso: 'R4/2015-09-10T00:00:00Z/PT1H' }).toArray();
 
       assert.strictEqual(5, arr.length);
       assert.deepStrictEqual(new Date('2015-09-10T00:00:00Z'), arr[0]);
@@ -163,8 +163,8 @@ describe('Period', () => {
         toDate () { return this.date; }
       }
 
-      let dummy = new CustomDate(start);
-      let arr = createPeriod({
+      const dummy = new CustomDate(start);
+      const arr = createPeriod({
         start: dummy,
         duration: 'PT1H30M',
         recurrence: 3
@@ -180,8 +180,8 @@ describe('Period', () => {
         toString () { return this.isoString; }
       }
 
-      let dummy = new CustomDuration('P1D');
-      let arr = createPeriod({ start, duration: dummy, recurrence: 3 }).toArray();
+      const dummy = new CustomDuration('P1D');
+      const arr = createPeriod({ start, duration: dummy, recurrence: 3 }).toArray();
 
       assert(arr.length === 4);
       assert.deepStrictEqual(arr[0], start);
@@ -190,8 +190,8 @@ describe('Period', () => {
 
   describe('#toString()', () => {
     it('should return a string', () => {
-      let start = new Date('2013-06-30T12:30:00Z');
-      let str = createPeriod({ start, duration, recurrence: 7 }).toString();
+      const start = new Date('2013-06-30T12:30:00Z');
+      const str = createPeriod({ start, duration, recurrence: 7 }).toString();
 
       assert.strictEqual(typeof str, 'string');
       assert.strictEqual(str, 'R7/2013-06-30T12:30:00.000Z/P1D');
