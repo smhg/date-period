@@ -59,17 +59,17 @@ describe('Period', () => {
       let period = createPeriod({ start, duration, end });
       let last;
 
-      assert.deepStrictEqual(period[Symbol.iterator]().next().value, start);
+      assert.deepStrictEqual(period[0], start);
 
-      for (last of period);
+      last = period[period.length - 1];
       last.setUTCDate(last.getUTCDate() + 1); // end is not included
       assert.deepStrictEqual(last, end);
 
       period = createPeriod({ start, duration, recurrence: 7 });
 
-      assert.deepStrictEqual(period[Symbol.iterator]().next().value, start);
+      assert.deepStrictEqual(period[0], start);
 
-      for (last of period);
+      last = period[period.length - 1];
       assert.deepStrictEqual(last, end);
     });
 
@@ -79,13 +79,10 @@ describe('Period', () => {
         duration: 'P1W',
         recurrence: 1
       });
-      let iterator = period[Symbol.iterator]();
-
-      iterator.next();
 
       assert.deepStrictEqual(
         new Date('Mon Oct 31 2016 00:00:00 GMT+0100 (CET)'),
-        iterator.next().value
+        period[1]
       );
 
       // date-duration ignores timezone differences when adding time units
@@ -94,31 +91,26 @@ describe('Period', () => {
         duration: 'PT2H',
         recurrence: 1
       });
-      iterator = period[Symbol.iterator]();
-
-      iterator.next();
 
       assert.deepStrictEqual(
         new Date('Sun Oct 30 2016 03:00:00 GMT+0100 (CET)'),
-        iterator.next().value
+        period[1]
       );
     });
-  });
 
-  describe('#toArray()', () => {
     it('should return generated result', () => {
       const start = new Date('2013-06-30T12:30:00Z');
-      const arr = createPeriod({ start, duration, recurrence: 7 }).toArray();
+      const period = createPeriod({ start, duration, recurrence: 7 });
 
-      assert.ok(Array.isArray(arr));
-      assert.strictEqual(arr.length, 8);
+      assert.ok(Array.isArray(period));
+      assert.strictEqual(period.length, 8);
       assert.doesNotThrow(function () {
-        Array.prototype.forEach.call(arr, () => {});
+        Array.prototype.forEach.call(period, () => {});
       });
     });
 
     it('should not include end date as last item', () => {
-      const period = createPeriod({ start, duration, end }).toArray();
+      const period = createPeriod({ start, duration, end });
       const testEnd = new Date(+start);
 
       testEnd.setDate(testEnd.getDate() + 6);
@@ -131,16 +123,16 @@ describe('Period', () => {
       thisEnd.setDate(thisEnd.getDate() + 7);
       thisEnd.setHours(thisEnd.getHours() - 12);
 
-      let arr = createPeriod({ start, duration, end: thisEnd }).toArray();
+      let period = createPeriod({ start, duration, end: thisEnd });
 
-      assert.strictEqual(arr.length, 7, 'shortened end should affect length');
+      assert.strictEqual(period.length, 7, 'shortened end should affect length');
 
       thisEnd = new Date(+start);
       thisEnd.setDate(thisEnd.getDate() + 7);
       thisEnd.setHours(thisEnd.getHours() + 12);
 
-      arr = createPeriod({ start, duration, end: thisEnd }).toArray();
-      assert.strictEqual(arr.length, 8, 'stretched end should not affect length');
+      period = createPeriod({ start, duration, end: thisEnd });
+      assert.strictEqual(period.length, 8, 'stretched end should not affect length');
     });
 
     it('should parse a string in ISO format', () => {
@@ -148,11 +140,11 @@ describe('Period', () => {
         createPeriod({ iso: 'abc' });
       });
 
-      const arr = createPeriod({ iso: 'R4/2015-09-10T00:00:00Z/PT1H' }).toArray();
+      const period = createPeriod({ iso: 'R4/2015-09-10T00:00:00Z/PT1H' });
 
-      assert.strictEqual(5, arr.length);
-      assert.deepStrictEqual(new Date('2015-09-10T00:00:00Z'), arr[0]);
-      assert.deepStrictEqual(new Date('2015-09-10T04:00:00Z'), arr[4]);
+      assert.strictEqual(5, period.length);
+      assert.deepStrictEqual(new Date('2015-09-10T00:00:00Z'), period[0]);
+      assert.deepStrictEqual(new Date('2015-09-10T04:00:00Z'), period[4]);
     });
 
     it('should handle date-like objects with a toDate method', () => {
@@ -162,14 +154,14 @@ describe('Period', () => {
       }
 
       const dummy = new CustomDate(start);
-      const arr = createPeriod({
+      const period = createPeriod({
         start: dummy,
         duration: 'PT1H30M',
         recurrence: 3
-      }).toArray();
+      });
 
-      assert(arr.length === 4);
-      assert.deepStrictEqual(arr[0], start);
+      assert(period.length === 4);
+      assert.deepStrictEqual(period[0], start);
     });
 
     it('should handle duration objects with a toString method', () => {
@@ -179,20 +171,10 @@ describe('Period', () => {
       }
 
       const dummy = new CustomDuration('P1D');
-      const arr = createPeriod({ start, duration: dummy, recurrence: 3 }).toArray();
+      const period = createPeriod({ start, duration: dummy, recurrence: 3 });
 
-      assert(arr.length === 4);
-      assert.deepStrictEqual(arr[0], start);
-    });
-  });
-
-  describe('#toString()', () => {
-    it('should return a string', () => {
-      const start = new Date('2013-06-30T12:30:00Z');
-      const str = createPeriod({ start, duration, recurrence: 7 }).toString();
-
-      assert.strictEqual(typeof str, 'string');
-      assert.strictEqual(str, 'R7/2013-06-30T12:30:00.000Z/P1D');
+      assert(period.length === 4);
+      assert.deepStrictEqual(period[0], start);
     });
   });
 });

@@ -68,34 +68,30 @@ function createPeriod ({ start, duration, end, recurrence, iso }) {
     throw new Error('Invalid period (end needs to be after start)');
   }
 
-  const period = {
-    * [Symbol.iterator] () {
-      let date = new Date(+start);
+  const dates = [];
 
-      if (end) {
-        while (date < end) {
-          debug(`hit ${date}`);
-          yield date;
+  let date = new Date(+start);
 
-          date = addDuration(date, duration);
-        }
-      } else {
-        debug(`hit ${date}`);
-        yield date;
+  if (end) {
+    while (date < end) {
+      debug(`hit ${date}`);
+      dates.push(date);
 
-        for (let i = 0; i < recurrence; i++) {
-          date = addDuration(date, duration);
+      date = addDuration(date, duration);
+    }
+  } else {
+    debug(`hit ${date}`);
+    dates.push(date);
 
-          debug(`hit ${date}`);
-          yield date;
-        }
-      }
-    },
-    toArray: () => Array.from(period),
-    toString: () => `R${period.toArray().length - 1}/${start.toISOString()}/${duration}`
-  };
+    for (let i = 0; i < recurrence; i++) {
+      date = addDuration(date, duration);
 
-  return Object.freeze(period);
+      debug(`hit ${date}`);
+      dates.push(date);
+    }
+  }
+
+  return dates;
 }
 
 export default createPeriod;
