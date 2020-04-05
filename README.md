@@ -27,7 +27,7 @@ $ npm install date-period --save
 
 `createPeriod({ iso: String }) ⇒ Array<Date>`
 
-The date and duration parameters can be objects which have, respectively, `toDate` and `toString` methods. This way [moment](http://momentjs.com) objects are supported.
+Note: the `date` and `duration` parameters above can be objects which have, respectively, `toDate` and `toString` methods. This way [moment](http://momentjs.com) objects are supported.
 
 ### Example
 
