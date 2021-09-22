@@ -2,17 +2,14 @@
   "name": "date-period",
   "version": "3.0.0",
   "description": "Time period iterator",
-  "main": "dist/period.js",
-  "module": "src/period.js",
+  "type": "module",
+  "exports": "./index.js",
   "scripts": {
-    "lint": "eslint src test",
-    "build": "babel --source-maps -d dist src",
-    "test": "TZ=Europe/Brussels mocha --require @babel/register",
-    "clean": "rm -rf dist",
+    "lint": "eslint index.js test",
+    "test": "TZ=Europe/Brussels mocha",
     "preversion": "npm run lint && npm run test",
     "postversion": "git push && git push --tags",
-    "prepublishOnly": "npm run lint && npm run test && npm run build",
-    "postpublish": "npm run clean"
+    "prepublishOnly": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
@@ -36,24 +33,18 @@
   },
   "homepage": "https://github.com/smhg/date-period#readme",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.6",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/register": "^7.8.6",
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^7.1.0"
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "mocha": "^9.1.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.4",
-    "date-duration": "^1.8.1",
-    "debug": ">=3.2.6 || >= 4.1.1"
+    "date-duration": "^2.0.0",
+    "debug": "^4.3.2"
   },
+  "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
   "browserslist": [
     "last 1 version",
     "> 1%",

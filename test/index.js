@@ -1,5 +1,5 @@
 import assert from 'assert';
-import createPeriod from '../src/period';
+import createPeriod from '../index.js';
 
 describe('Period', () => {
   let start;

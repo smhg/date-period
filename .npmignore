@@ -1,6 +1,6 @@
+/.github
 /node_modules
 /test
-/src
 npm-debug.log
 .gitignore
-.eslintrc
+.eslintrc.json
