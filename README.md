@@ -1,4 +1,4 @@
-date-period [![Build status](https://api.travis-ci.org/smhg/date-period.png)](https://travis-ci.org/smhg/date-period)
+date-period [![ci](https://github.com/smhg/date-period/actions/workflows/ci.yml/badge.svg)](https://github.com/smhg/date-period/actions/workflows/ci.yml)
 ======
 Time period iterator.
 

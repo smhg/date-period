@@ -1,8 +1,6 @@
-node_modules
+/node_modules
+/test
+/src
 npm-debug.log
-*.sublime-*
 .gitignore
-test
-.travis.yml
 .eslintrc
-src
